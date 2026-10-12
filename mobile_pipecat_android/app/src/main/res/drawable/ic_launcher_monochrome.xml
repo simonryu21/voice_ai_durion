@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DuriOn 테마(모노크롬) 아이콘 — 시스템이 단색으로 틴트하므로 브랜드 실루엣(흰 막대 2개)만 남긴다.
+     타일은 그리지 않는다(틴트 시 막대와 같은 색이 되어 사라지므로). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- 긴 막대 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M40.9,40.9 h8.73 v26.18 h-8.73 z" />
+    <!-- 짧은 막대 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M58.36,40.9 h8.73 v13.09 h-8.73 z" />
+</vector>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="searchPlaceData"
+            type="com.lgcns.codeengine.data.entity.Place" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="66dp">
+        <ImageView
+            android:id="@+id/ivIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:src="@drawable/img_location"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="15dp"
+            />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_marginEnd="15dp"
+            android:fontFamily="@font/opensans_regular"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:bufferType="spannable"
+            android:text="@{searchPlaceData.name}"
+            app:layout_constraintBottom_toTopOf="@+id/tvJibunAddr"
+            app:layout_constraintStart_toEndOf="@+id/ivIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="서울역(TEST)" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvJibunAddr"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:fontFamily="@font/opensans_regular"
+            android:includeFontPadding="false"
+            android:textColor="@color/fav_color"
+            android:textSize="13dp"
+            android:maxLines="2"
+            android:text="@{searchPlaceData.address}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/ivIcon"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            tools:text="서울특별시 용산구(TEST)" />
+
+        <View
+            android:id="@+id/viewBorder"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/quick_border"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

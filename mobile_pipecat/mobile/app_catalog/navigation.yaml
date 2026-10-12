@@ -1,0 +1,102 @@
+category: navigation
+display_name: 지도/길찾기
+apps:
+  - app_id: naver_map
+    display_name: 네이버 지도
+    package_name: com.nhn.android.nmap
+    bundle_id: com.nhn.NaverMap
+    popularity_rank: 1
+    use_when: |
+      길찾기, 대중교통 경로, 주변 장소 검색, 특정 장소 위치 확인이 필요할 때.
+      도보·대중교통 위주의 발화에 적합.
+    examples:
+      - "강남역 가는 길 알려줘"
+      - "여기 근처 카페 어디 있어?"
+      - "서울역까지 지하철로 얼마나 걸려?"
+    parameters:
+      - name: query
+        type: string
+        required: true
+        description: "검색어 또는 목적지 명칭"
+    execution:
+      android:
+        - type: applink
+          priority: 1
+          template: "https://map.naver.com/v5/search/{query}"
+        - type: deeplink
+          priority: 2
+          template: "nmap://search?query={query}&appname=com.lgcns.mobile.voice"
+        - type: intent
+          priority: 3
+          action: android.intent.action.VIEW
+          uri_template: "geo:0,0?q={query}"
+      ios:
+        - type: universal_link
+          priority: 1
+          template: "https://map.naver.com/v5/search/{query}"
+        - type: scheme
+          priority: 2
+          template: "nmap://search?query={query}&appname=com.lgcns.mobile.voice"
+
+  - app_id: tmap
+    display_name: 티맵
+    package_name: com.skt.tmap.ku
+    bundle_id: com.skt.tmap
+    popularity_rank: 2
+    use_when: |
+      자동차 길찾기, 운전 중 내비게이션이 필요할 때 특히 적합.
+      "차로", "운전", "내비" 같은 키워드가 있으면 우선.
+    examples:
+      - "차로 부산까지 가는 길"
+      - "내비 켜줘"
+      - "운전해서 강남역까지"
+    parameters:
+      - name: destination
+        type: string
+        required: true
+        description: "목적지 명칭"
+    execution:
+      android:
+        - type: deeplink
+          priority: 1
+          template: "tmap://search?name={destination}"
+        - type: intent
+          priority: 2
+          action: android.intent.action.VIEW
+          uri_template: "geo:0,0?q={destination}"
+      ios:
+        - type: scheme
+          priority: 1
+          template: "tmap://search?name={destination}"
+
+  - app_id: google_maps
+    display_name: 구글 지도
+    package_name: com.google.android.apps.maps
+    bundle_id: com.google.Maps
+    popularity_rank: 3
+    use_when: |
+      해외 길찾기, 영문 검색어, 사용자가 "구글 지도"를 명시했을 때 적합.
+    examples:
+      - "구글 지도로 도쿄 길 알려줘"
+      - "Times Square 가는 길"
+    parameters:
+      - name: query
+        type: string
+        required: true
+        description: "검색어 또는 목적지"
+    execution:
+      android:
+        - type: applink
+          priority: 1
+          template: "https://www.google.com/maps/search/?api=1&query={query}"
+        - type: intent
+          priority: 2
+          action: android.intent.action.VIEW
+          uri_template: "geo:0,0?q={query}"
+      ios:
+        - type: universal_link
+          priority: 1
+          template: "https://www.google.com/maps/search/?api=1&query={query}"
+        - type: scheme
+          priority: 2
+          template: "comgooglemaps://?q={query}"

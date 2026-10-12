@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. --><style name="AppTheme" parent="Base.AppTheme" />
+
+    <style name="AppTheme.OverlapSystemBar" parent="Base.AppTheme" />
+
+    <style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!-- For Android sdk versions 26+. -->
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">@font/opensans_font</item>
+        <!-- Target Android sdk versions < 26 and > 14. -->
+        <item name="fontFamily">@font/opensans_font</item>
+        <!-- sets the style for the overflow button -->
+        <item name="actionOverflowButtonStyle">@style/actionOverflowButtonStyle</item>
+    </style>
+
+    <!-- This style defines the tint color of the overflow menu button -->
+    <style name="actionOverflowButtonStyle" parent="@style/Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/colorAccent</item>
+    </style>
+
+    <style name="Toolbar" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="TextStyle">
+        <item name="android:fontFamily">@font/opensans_regular</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:lineSpacingExtra">10dp</item>
+        <item name="android:textColor">#333b3d</item>
+    </style>
+
+    <!--    Button Components Style -->
+    <style name="ButtonComponents" parent="TextAppearance.AppCompat.Button">
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:fontFamily">@font/opensans_regular</item>
+    </style>
+
+    <style name="ButtonComponents.XLarge">
+        <item name="android:textSize">18dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:radius">12dp</item>
+    </style>
+
+    <style name="ButtonComponents.XLarge.1st">
+        <item name="android:background">@drawable/button_components_1st_background</item>
+        <item name="android:textColor">@color/button_components_1st_color</item>
+    </style>
+
+    <style name="ButtonComponents.XLarge.4th">
+        <item name="android:background">@drawable/button_components_4th_background</item>
+        <item name="android:textColor">@color/button_components_4th_color</item>
+    </style>
+
+    <style name="CustomPopupDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="SimpleFullScreenDialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:background">@color/transparent</item>
+    </style>
+
+</resources>

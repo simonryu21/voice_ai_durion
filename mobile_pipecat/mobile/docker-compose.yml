@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  pipecat-bot:
+    build:
+      context: ..
+      dockerfile: mobile/Dockerfile
+    container_name: pipecat-mobile-bot
+    ports:
+      - "${BOT_PORT:-7860}:7860"
+    environment:
+      # API Keys
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - SONIOX_API_KEY=${SONIOX_API_KEY}
+      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
+      - CARTESIA_API_KEY=${CARTESIA_API_KEY}
+      - ELEVENLABS_API_KEY=${ELEVENLABS_API_KEY}
+      
+      # Mem0
+      - MEM0_API_KEY=${MEM0_API_KEY}
+      - MEM0_HOST=${MEM0_HOST:-http://localhost:8888}
+      
+      # OpenAI Model
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4o}
+      
+      # STT/TTS Providers
+      - STT_PROVIDER=${STT_PROVIDER:-soniox}
+      - TTS_PROVIDER=${TTS_PROVIDER:-openai}
+      
+      # Performance optimizations
+      - UVICORN_WORKERS=${UVICORN_WORKERS:-4}
+      
+      # STT optimization
+      - AUDIO_INPUT_TIMEOUT_SECS=${AUDIO_INPUT_TIMEOUT_SECS:-1.5}
+      - AUDIO_FRAME_TIMEOUT_SECS=${AUDIO_FRAME_TIMEOUT_SECS:-3.0}
+      
+      # WebRTC optimization
+      - WEBRTC_IDLE_TIMEOUT_SECS=${WEBRTC_IDLE_TIMEOUT_SECS:-60.0}
+      - WEBRTC_QUEUE_SIZE_THRESHOLD=${WEBRTC_QUEUE_SIZE_THRESHOLD:-100}
+      
+      # SSL (if using HTTPS)
+      - SSL_KEYFILE=${SSL_KEYFILE}
+      - SSL_CERTFILE=${SSL_CERTFILE}
+    volumes:
+      # Mount SSL certificates if using HTTPS
+      - ./key.pem:/app/mobile/key.pem:ro
+      - ./cert.pem:/app/mobile/cert.pem:ro
+      # Optional: Mount .env file
+      - ./.env:/app/mobile/.env:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7860/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    # Override command for production optimizations
+    command:
+      - sh
+      - -c
+      - |
+        uv run voice_ai.py \
+          --host 0.0.0.0 \
+          --port 7860 \
+          --workers $${UVICORN_WORKERS:-4} \
+          --no-access-log \
+          --log-level info \
+          $${SSL_KEYFILE:+--ssl-keyfile key.pem} \
+          $${SSL_CERTFILE:+--ssl-certfile cert.pem}
+    # Resource limits (adjust based on your needs)
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4G
+        reservations:
+          cpus: '2'
+          memory: 2G
+

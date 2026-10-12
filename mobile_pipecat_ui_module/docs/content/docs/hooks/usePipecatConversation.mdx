@@ -1,0 +1,110 @@
+---
+title: usePipecatConversation
+description: Hook that derives a clean, ordered conversation stream from RTVI events.
+---
+
+## Overview
+
+`usePipecatConversation` provides access to conversation state managed by the `ConversationProvider`. The provider is automatically included when using `PipecatAppBase` and handles all Pipecat RTVI events to produce a clean message list suitable for rendering a chat transcript. It handles streaming text, placeholder messages, finalization, and merging of consecutive messages from the same role.
+
+## Setup
+
+The `ConversationProvider` is automatically included when you use `PipecatAppBase`, so no additional setup is required:
+
+```tsx
+import { PipecatAppBase, usePipecatConversation } from "@pipecat-ai/voice-ui-kit";
+
+export default function App() {
+  return (
+    <PipecatAppBase
+      transportType="smallwebrtc"
+      connectParams={{ webrtcUrl: "/api/offer" }}
+    >
+      <YourApp />
+    </PipecatAppBase>
+  );
+}
+```
+
+## Usage
+
+### Basic
+
+```tsx
+import { usePipecatConversation } from "@pipecat-ai/voice-ui-kit";
+
+export function ConversationList() {
+  const { messages } = usePipecatConversation();
+  return (
+    <ul>
+      {messages.map((m, i) => (
+        <li key={i}>
+          <strong>{m.role}:</strong> {typeof m.content === "string" ? m.content : "[component]"}
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+### With callback
+
+```tsx
+const { messages } = usePipecatConversation({
+  onMessageAdded: (message) => console.log("New message:", message),
+});
+```
+
+### Full example
+
+```tsx
+import React, { useEffect, useRef } from "react";
+import { usePipecatConversation } from "@pipecat-ai/voice-ui-kit";
+
+export function ConversationExample() {
+  const { messages } = usePipecatConversation();
+  const endRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  return (
+    <div style={{ height: 300, overflow: "auto", fontFamily: "monospace", fontSize: 12 }}>
+      {messages.map((m, i) => (
+        <div key={i}>
+          <strong>[{m.role}]</strong> {typeof m.content === "string" ? m.content : "[component]"}
+          <span style={{ opacity: 0.6, marginLeft: 8 }}>
+            {new Date(m.createdAt).toLocaleTimeString()}
+          </span>
+        </div>
+      ))}
+      <div ref={endRef} />
+    </div>
+  );
+}
+```
+
+### Injecting messages
+
+You can inject messages directly via the hook, or by using `ConsoleTemplate` callbacks.
+
+```tsx
+import React from "react";
+import { usePipecatConversation } from "@pipecat-ai/voice-ui-kit";
+
+export function InjectViaHook() {
+  const { injectMessage } = usePipecatConversation();
+  return (
+    <button
+      onClick={() =>
+        injectMessage({ role: "system", content: "Hello from the system" })
+      }
+    >
+      Inject message
+    </button>
+  );
+}
+```
+
+```

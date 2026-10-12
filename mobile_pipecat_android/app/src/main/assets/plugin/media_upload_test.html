@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <style type = "text/css">
+        /* 버튼 */
+        .btns_2{display: flex;margin-left: -5px;margin-top: 10px;margin-bottom: 19px;}
+        .btn-upload {
+          width: 150px;
+          height: 30px;
+          background: #fff;
+          border: 1px solid rgb(77,77,77);
+          border-radius: 10px;
+          font-weight: 500;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          &:hover {
+            background: rgb(77,77,77);
+            color: #fff;
+          }
+        }
+    </style>
+
+    <script src="plugins.js"></script>
+
+    <script type="text/javascript">
+
+$(document).ready(function() {
+
+	//닫기 버튼 클릭
+	$(".close").click(function() {
+		goMyBrand();
+	})
+
+	//파일첨부
+	$("#id_file_upload").click(function() {
+		var img_cnt = $(".preview-box").length;  // 현재 등록(선택)한 이미지 갯수
+		var max_cnt = 10;                        // 이미지 등록 최대갯수
+
+		if (img_cnt >= max_cnt) {
+			alert("파일은 최대 10장까지 첨부 가능합니다.");
+			return false;
+		} else {
+			$('.file_add').trigger('click');
+		}
+	});
+
+	// <input type=file> 태그 기능 구현
+	$(".file_add input[type='file']").change(function() {
+		fn_addPreview($(this)); // preview form 추가하기
+	});
+});
+
+//임의의 file object영역
+var files = {};
+var previewOffset = 0;
+
+// 이미지 preview
+function fn_addPreview(input) {
+	// 이미지 순번 생성
+	var pIndex = $("#uploadForm").find("#pIndex").val();
+
+	if (pIndex != "" && pIndex != "0") {
+		previewOffset = parseInt(pIndex);
+	}
+
+	if(input[0].files) {
+    	// 파일 선택이 여러개였을 시의 대응
+		for (var fileIndex = 0; fileIndex < input[0].files.length; fileIndex++) {
+
+			var file = input[0].files[fileIndex];
+            //alert("fileIndex="+fileIndex+", name="+file.name);
+
+            if(file.name.toLowerCase().indexOf("jpg") > 0 ||
+                file.name.toLowerCase().indexOf("jpeg") > 0 ||
+                file.name.toLowerCase().indexOf("webp") > 0 ||
+                file.name.toLowerCase().indexOf("png") > 0 ||
+                file.name.toLowerCase().indexOf("gif") > 0)
+           {
+				var reader = new FileReader();  // FileReader 객체 사용
+
+				reader.onload = function(img) {  // 파일을 다 읽었을 때 실행되는 부분
+    				var imgNum = previewOffset++;
+
+                    // 이미지 미리보기 html
+                    var str = "";
+					str += '<div class="preview-box" value="' + imgNum + '">';
+					str += '    <img src="'+img.target.result+'" width="137.35" height="137.35" class="thumnail"/>';
+					str += '    <button class="del" value="'+imgNum+'" name="" onclick="fn_deletePreview(this)">삭제</button>';
+					str += '</div>';
+
+					$("#id_preview").append(str);
+					files[imgNum] = file;
+				    $("#uploadForm").find("#pIndex").val(previewOffset);
+					//alert("img files[" + imgNum + "]="+file.name);
+				};
+
+				reader.readAsDataURL(file);  // 파일을 읽는다
+
+			} else {
+				var imgNum = previewOffset++;
+
+				$("#uploadForm").find("#pIndex").val(imgNum);
+
+				//폼 복사
+				$("#cloneVideoTag").clone().appendTo("#id_preview");
+
+				//데이터 설정
+				$("#id_preview div[value='']").addClass("preview-box")
+				$("#id_preview .preview-box[value='']").attr("value",imgNum).removeAttr("id","");
+				$("#id_preview .preview-box[value=" + imgNum + "] video source").attr("src",URL.createObjectURL(file));
+				$("#id_preview .preview-box[value=" + imgNum + "] video").attr("id","videoT"+imgNum);
+				$("#id_preview .preview-box[value=" + imgNum + "] .del").attr("value",imgNum);
+
+				//노출
+				$("#id_preview .preview-box[value=" + imgNum + "]").removeAttr("style");
+
+                //alert("video files[" + imgNum + "]="+file.name);
+				files[imgNum] = file;
+				$("#uploadForm").find("#pIndex").val(previewOffset);
+			}
+		}
+
+	} else {
+
+	}
+}
+
+//preview 영역에서 삭제 클릭시 해당 미리보기이미지 영역 삭제
+var delNum  = new Array();  // 삭제이미지 번호
+var delName = new Array();  // 삭제이미지 명
+var delPath = "";           // 삭제파일 경로
+function fn_deletePreview(obj,path) {
+
+	var imgNum  = obj.attributes['value'].value;
+	var imgName = obj.attributes['name'].value;
+	delPath = path;
+
+	delete files[imgNum];
+	$("#id_preview .preview-box[value=" + imgNum + "]").remove();
+
+	// 삭제 이미지번호 및 이미지명
+	if (imgName != "") {
+		delNum.push(imgNum);
+		delName.push(imgName);
+	}
+}
+
+</script>
+</head>
+
+<body>
+
+<div class="my_brand daily_write">
+    <div class="nick_input">
+        <strong>사진 또는 영상</strong>
+    </div>
+    <div class="file_add">
+        <div class="file_box" style="padding-bottom:0px;">
+            <!-- 이미지 미리보기  -->
+            <div id="id_preview"></div>
+        </div>
+
+        <!-- multipart 업로드시 영역 시작 -->
+        <div class="btns_2">
+            <label for="file_add">
+                <div class="btn-upload">사진 첨부</div>
+            </label>
+            <input type="file" name="image" id="file_add" accept=".jpeg, .jpg, .png" style="display:none;">
+        </div>
+        <div class="btns_2">
+            <label for="file_add2">
+                <div class="btn-upload">동영상 첨부</div>
+            </label>
+            <input type="file" name="video" id="file_add2" accept=".mp4, .mov" style="display:none;">
+        </div>
+        <div class="btns_2">
+            <label for="file_add3">
+                <div class="btn-upload">파일 첨부</div>
+            </label>
+            <input type="file" name="file" id="file_add3" accept="application/pdf" style="display:none;">
+        </div>
+        <div class="btns_2">
+            <label for="file_add4">
+                <div class="btn-upload">사진 첨부(multiple)</div>
+            </label>
+            <input type="file" name="image" id="file_add4" accept=".jpeg, .jpg, .png" style="display:none;" multiple>
+        </div>
+        <div class="btns_2">
+            <label for="file_add5">
+                <div class="btn-upload">동영상 첨부(multiple)</div>
+            </label>
+            <input type="file" name="video" id="file_add5" accept=".mp4, .mov" style="display:none;" multiple>
+        </div>
+        <div class="btns_2">
+            <label for="file_add6">
+                <div class="btn-upload">파일 첨부(multiple)</div>
+            </label>
+            <input type="file" name="file" id="file_add6" accept="application/pdf, image/*" style="display:none;" multiple>
+        </div>
+
+        <form id="uploadForm" style="display:none;">
+            <input type="text" id="pIndex" name="pIndex" />
+        </form>
+        <!-- multipart 업로드시 영역 끝 -->
+
+    </div>
+
+</div>
+<!-- 비디오 -->
+<div class="" value="" id="cloneVideoTag" style="display:none;">
+    <video id="videoT" width="137.35" height="137.35" class="thumnail" autoplay playsinline muted loop>
+        <source type="video/mp4">
+    </video>
+    <button class="del" value="" name="" onclick="fn_deletePreview(this)">삭제</button>
+</div>
+<!-- 비디오 -->
+
+</body>
+
+</html>

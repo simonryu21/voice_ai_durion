@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="52dp"
+            android:layout_marginStart="16dp"
+            android:gravity="center_vertical"
+            android:text="Web App Test Page"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/pluginButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:minWidth="0dp"
+            android:paddingHorizontal="10dp"
+            android:text="플러그인"
+            android:textSize="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleText"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:id="@+id/closeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@null"
+            android:padding="8dp"
+            android:src="@drawable/ic_close_medium_grey900"
+            app:layout_constraintBottom_toBottomOf="@id/titleText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/titleText" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/reactUrlEditLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
+            android:hint="React 웹뷰 테스트"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toStartOf="@id/webViewReactButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pluginButton">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/reactUrlEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:textSize="13dp"
+                tools:text="https://dev.page.com/react" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/webViewReactButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="4dp"
+            android:minWidth="0dp"
+            android:text="열기"
+            app:layout_constraintBottom_toBottomOf="@id/reactUrlEditLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/reactUrlEditLayout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

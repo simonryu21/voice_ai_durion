@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- 화면 캡처, 공유에 사용 -->
+    <cache-path
+        name="picture_cache"
+        path="./picture" />
+
+    <!-- 사진, 동영상 업로드시 사용 -->
+    <external-path name="storage/emulated" path="."/>
+
+</paths>

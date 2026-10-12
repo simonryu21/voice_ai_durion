@@ -1,0 +1,23 @@
+packages:
+  - package/
+  - docs/
+  - examples/*
+  - small-webrtc-prebuilt/client
+overrides:
+  '@pipecat-ai/voice-ui-kit': workspace:*
+allowBuilds:
+  '@swc/core': true
+  '@tailwindcss/oxide': true
+  es5-ext: true
+  esbuild: true
+  msw: true
+  sharp: true
+  unrs-resolver: true
+onlyBuiltDependencies:
+  - "@swc/core"
+  - "@tailwindcss/oxide"
+  - es5-ext
+  - esbuild
+  - msw
+  - sharp
+  - unrs-resolver

@@ -1,0 +1,3 @@
+[submodule "small-webrtc-prebuilt"]
+	path = small-webrtc-prebuilt
+	url = https://wire.lgcns.com/bitbucket/scm/mobile-shared/mobile_pipecat_frontend.git

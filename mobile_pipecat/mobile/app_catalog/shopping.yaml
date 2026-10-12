@@ -1,0 +1,66 @@
+category: shopping
+display_name: 쇼핑/검색
+apps:
+  - app_id: coupang
+    display_name: 쿠팡
+    package_name: com.coupang.mobile
+    bundle_id: com.coupang.coupangapp
+    popularity_rank: 1
+    use_when: |
+      쿠팡에서 상품 검색·구매, 가격 비교, 로켓배송 가능 여부 확인이 필요할 때.
+      "쿠팡"을 명시하거나 빠른 배송이 필요한 일상 용품 발화.
+    examples:
+      - "쿠팡에서 우유 검색"
+      - "쿠팡에서 3만원 이하 블루투스 이어폰"
+      - "쿠팡 로켓배송으로 휴지"
+    parameters:
+      - name: query
+        type: string
+        required: true
+        description: "검색어"
+    execution:
+      android:
+        - type: applink
+          priority: 1
+          template: "https://www.coupang.com/np/search?q={query}"
+        - type: deeplink
+          priority: 2
+          template: "coupang://search?q={query}"
+      ios:
+        - type: universal_link
+          priority: 1
+          template: "https://www.coupang.com/np/search?q={query}"
+        - type: scheme
+          priority: 2
+          template: "coupang://search?q={query}"
+
+  - app_id: naver_shopping
+    display_name: 네이버 쇼핑
+    package_name: com.nhn.android.search
+    bundle_id: com.naver.NaverSearch
+    popularity_rank: 2
+    use_when: |
+      가격 비교, 다양한 쇼핑몰 통합 검색이 필요할 때. "네이버 쇼핑" 명시.
+    examples:
+      - "네이버 쇼핑에서 노트북 가격 비교"
+      - "최저가로 청바지"
+    parameters:
+      - name: query
+        type: string
+        required: true
+        description: "검색어"
+    execution:
+      android:
+        - type: applink
+          priority: 1
+          template: "https://search.shopping.naver.com/search/all?query={query}"
+        - type: deeplink
+          priority: 2
+          template: "naversearchapp://inappbrowser?url=https%3A%2F%2Fsearch.shopping.naver.com%2Fsearch%2Fall%3Fquery%3D{query}"
+      ios:
+        - type: universal_link
+          priority: 1
+          template: "https://search.shopping.naver.com/search/all?query={query}"
+        - type: scheme
+          priority: 2
+          template: "naversearchapp://inappbrowser?url=https%3A%2F%2Fsearch.shopping.naver.com%2Fsearch%2Fall%3Fquery%3D{query}"

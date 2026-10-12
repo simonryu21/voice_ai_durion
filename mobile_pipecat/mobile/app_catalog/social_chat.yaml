@@ -1,0 +1,102 @@
+category: social_chat
+display_name: 메신저/채팅
+apps:
+  - app_id: kakaotalk
+    display_name: 카카오톡
+    package_name: com.kakao.talk
+    bundle_id: com.iwilab.KakaoTalk
+    popularity_rank: 1
+    use_when: |
+      국내 사용자 사이 메시지 전송, 카카오톡 친구 검색, 공유가 필요할 때.
+      "카톡", "카카오톡", "메시지 보내" 같은 키워드와 한국 이름의 수신자.
+    examples:
+      - "엄마한테 카톡 보내줘"
+      - "카톡으로 위치 공유해줘"
+      - "김 팀장한테 카톡 보내"
+    parameters:
+      - name: recipient
+        type: string
+        required: false
+        description: "받는 사람 이름. 카톡 검색 폼에 입력됨."
+    execution:
+      android:
+        - type: deeplink
+          priority: 1
+          template: "kakaotalk://search?type=user&q={recipient}"
+        - type: applink
+          priority: 2
+          template: "https://accounts.kakao.com/login?continue=https%3A%2F%2Fkakaotalk.com"
+        - type: intent
+          priority: 3
+          action: android.intent.action.VIEW
+          uri_template: "kakaotalk://"
+      ios:
+        - type: scheme
+          priority: 1
+          template: "kakaotalk://search?type=user&q={recipient}"
+
+  - app_id: whatsapp
+    display_name: WhatsApp
+    package_name: com.whatsapp
+    bundle_id: net.whatsapp.WhatsApp
+    popularity_rank: 2
+    use_when: |
+      해외 친구·가족과의 메시지·통화. "왓츠앱"을 명시했거나 외국 번호의 수신자.
+    examples:
+      - "왓츠앱으로 사라한테 메시지"
+      - "Send a WhatsApp to John"
+    parameters:
+      - name: phone
+        type: string
+        required: false
+        description: "국가 코드 포함 전화번호 (없으면 메인 화면)"
+      - name: text
+        type: string
+        required: false
+        description: "보낼 메시지"
+    execution:
+      android:
+        - type: applink
+          priority: 1
+          template: "https://wa.me/{phone}?text={text}"
+        - type: deeplink
+          priority: 2
+          template: "whatsapp://send?phone={phone}&text={text}"
+      ios:
+        - type: universal_link
+          priority: 1
+          template: "https://wa.me/{phone}?text={text}"
+        - type: scheme
+          priority: 2
+          template: "whatsapp://send?phone={phone}&text={text}"
+
+  - app_id: telegram
+    display_name: 텔레그램
+    package_name: org.telegram.messenger
+    bundle_id: ph.telegra.Telegraph
+    popularity_rank: 3
+    use_when: |
+      텔레그램으로 메시지를 보내거나 채널·봇을 열고 싶을 때.
+    examples:
+      - "텔레그램으로 메시지 보내"
+      - "텔레그램에서 @news 채널 열어"
+    parameters:
+      - name: handle
+        type: string
+        required: false
+        description: "@username (없으면 메인 화면)"
+    execution:
+      android:
+        - type: applink
+          priority: 1
+          template: "https://t.me/{handle}"
+        - type: deeplink
+          priority: 2
+          template: "tg://resolve?domain={handle}"
+      ios:
+        - type: universal_link
+          priority: 1
+          template: "https://t.me/{handle}"
+        - type: scheme
+          priority: 2
+          template: "tg://resolve?domain={handle}"

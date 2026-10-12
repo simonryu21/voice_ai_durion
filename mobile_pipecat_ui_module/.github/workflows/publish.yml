@@ -1,0 +1,90 @@
+name: Bump and Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version type to bump'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+          - rc
+
+jobs:
+  bump-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'github-actions@github.com'
+
+      - name: Bump version
+        id: bump_version
+        working-directory: package
+        run: |
+          if [ "${{ github.event.inputs.version_type }}" = "rc" ]; then
+            pnpm version prerelease --preid=rc
+          else
+            pnpm version ${{ github.event.inputs.version_type }}
+          fi
+      
+      - name: Get version
+        id: package_version
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+        with:
+          path: package
+
+      - name: Build package
+        run: pnpm build
+        working-directory: package
+
+      - name: Publish to NPM
+        working-directory: package
+        run: |
+          if [ "${{ github.event.inputs.version_type }}" = "rc" ]; then
+            pnpm publish --tag dev
+          else
+            pnpm publish --tag latest
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Push changes
+        run: |
+          git push
+          git push --tags
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.package_version.outputs.current-version }}
+          release_name: Release v${{ steps.package_version.outputs.current-version }}
+          draft: false
+          prerelease: ${{ github.event.inputs.version_type == 'rc' }}

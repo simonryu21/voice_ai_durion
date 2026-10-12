@@ -1,0 +1,16 @@
+{
+    "title": "Voice UI Kit",
+    "pages": [
+        "index",
+        "styling",
+        "---Components---",
+        "...components",
+        "primitives",
+        "---Hooks & Utilities---",
+        "...hooks",
+        "---Templates---",
+        "templates/console",
+        "---Audio Visualizers---",
+        "...visualizers"
+    ]
+}

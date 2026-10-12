@@ -1,0 +1,5 @@
+sdk.dir=/absolute/path/to/Android/sdk
+GEMINI_API_KEY=
+tMapAppKey=
+KEYSTORE_PASSWORD=
+KEY_PASSWORD=

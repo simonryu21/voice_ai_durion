@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DuriOn 앱 아이콘 배경 — 투명.
+     브랜드 색 타일은 전경(ic_launcher_foreground)이 둥근 사각형으로 직접 그린다.
+     배경을 투명으로 두면 런처의 원형 마스크가 빈 영역만 깎아내고
+     전경의 둥근 사각 타일이 떠 있는 형태로 보인다(메인메뉴 좌상단 Wordmark와 동일한 룩). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M0,0h108v108h-108z" />
+</vector>

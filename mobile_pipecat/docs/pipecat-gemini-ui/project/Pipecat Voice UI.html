@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pipecat Voice UI</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    background: #E8E2DC;
+    font-family: 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    color: #0E0B0A;
+    overscroll-behavior: none;
+  }
+  * { box-sizing: border-box; }
+
+  @keyframes pulseDot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); opacity: 0.65; }
+  }
+  @keyframes blinkCaret {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  @keyframes typingBounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-3px); opacity: 1; }
+  }
+
+  /* Device frame mock (simpler than AndroidDevice) */
+  .device {
+    position: relative;
+    border-radius: 44px;
+    overflow: hidden;
+    background: #0E0B0A;
+    border: 10px solid #15110F;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.05) inset,
+      0 30px 80px rgba(0,0,0,0.28),
+      0 6px 20px rgba(0,0,0,0.18);
+  }
+  .device-inner {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    border-radius: 34px; overflow: hidden;
+    position: relative;
+  }
+  .status-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 24px 6px;
+    font-family: 'Geist', system-ui;
+    font-size: 13px; font-weight: 600;
+    position: relative;
+  }
+  .status-bar .punch {
+    position: absolute; left: 50%; top: 8px; transform: translateX(-50%);
+    width: 26px; height: 26px; border-radius: 50%; background: #000;
+  }
+  .nav-bar {
+    height: 22px; display: flex; align-items: center; justify-content: center;
+    padding-bottom: 6px;
+  }
+  .nav-bar .home {
+    width: 124px; height: 4px; border-radius: 2px;
+    opacity: 0.5;
+  }
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="app.jsx"></script>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "vizStyle": "bars",
+  "accent": "#C73E1D",
+  "dark": true,
+  "focusState": "all"
+}/*EDITMODE-END*/;
+
+const ACCENT_OPTIONS = ['#C73E1D', '#D94A2B', '#E55934', '#B33A1A'];
+
+// ─── Phone shell ──────────────────────────────────────────────────────
+function Phone({ children, dark, accent }) {
+  const sb = dark ? '#F7F1ED' : '#0E0B0A';
+  const bg = dark ? '#0E0B0A' : '#FAF6F2';
+  return (
+    <div className="device" style={{
+      width: 392, height: 820,
+      background: bg,
+    }}>
+      <div className="device-inner" style={{ background: bg }}>
+        <div className="status-bar" style={{ color: sb }}>
+          <span style={{ fontFamily: 'Geist Mono, monospace', fontVariantNumeric: 'tabular-nums' }}>9:32</span>
+          <div className="punch"/>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+            <svg width="14" height="10" viewBox="0 0 14 10" fill={sb}>
+              <path d="M7 9.3L0 2.3a9.9 9.9 0 0 1 14 0L7 9.3z"/>
+            </svg>
+            <svg width="14" height="10" viewBox="0 0 14 10" fill={sb}>
+              <rect x="1" y="6" width="2" height="3" rx="0.4"/>
+              <rect x="4.5" y="4" width="2" height="5" rx="0.4"/>
+              <rect x="8" y="2" width="2" height="7" rx="0.4"/>
+              <rect x="11.5" y="0" width="2" height="9" rx="0.4"/>
+            </svg>
+            <svg width="22" height="11" viewBox="0 0 22 11">
+              <rect x="0.5" y="0.5" width="18" height="10" rx="2.5" fill="none" stroke={sb} strokeOpacity="0.5"/>
+              <rect x="20" y="3.5" width="1.5" height="4" rx="0.5" fill={sb} opacity="0.5"/>
+              <rect x="2" y="2" width="13" height="7" rx="1.2" fill={sb}/>
+            </svg>
+          </span>
+        </div>
+        <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+          {children}
+        </div>
+        <div className="nav-bar">
+          <div className="home" style={{ background: sb }}/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Artboard wrapper ─────────────────────────────────────────────────
+function Frame({ children, dark, accent, label }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
+      <Phone dark={dark} accent={accent}>{children}</Phone>
+    </div>
+  );
+}
+
+// ─── Multi-screen canvas view ─────────────────────────────────────────
+function MultiView({ t }) {
+  const theme = themes[t.dark ? 'dark' : 'light'];
+  return (
+    <DesignCanvas defaultZoom={0.7} background={t.dark ? '#1B1614' : '#E8E2DC'}>
+      <DCSection id="states" title="Pipecat · Voice Assistant" subtitle="Original UI · deep vermilion · five states">
+        <DCArtboard id="idle" label="01 · Idle" width={392} height={820}>
+          <Phone dark={t.dark} accent={t.accent}>
+            <ScreenIdle theme={theme} accent={t.accent}/>
+          </Phone>
+        </DCArtboard>
+        <DCArtboard id="listening" label="02 · Listening" width={392} height={820}>
+          <Phone dark={t.dark} accent={t.accent}>
+            <ScreenListening theme={theme} accent={t.accent} vizStyle={t.vizStyle}/>
+          </Phone>
+        </DCArtboard>
+        <DCArtboard id="conversation" label="03 · Conversation" width={392} height={820}>
+          <Phone dark={t.dark} accent={t.accent}>
+            <ScreenConversation theme={theme} accent={t.accent}/>
+          </Phone>
+        </DCArtboard>
+        <DCArtboard id="overlay" label="04 · Overlay bar" width={392} height={820}>
+          <Phone dark={t.dark} accent={t.accent}>
+            <ScreenOverlay theme={theme} accent={t.accent} vizStyle={t.vizStyle}/>
+          </Phone>
+        </DCArtboard>
+        <DCArtboard id="bubble" label="05 · Bubble" width={392} height={820}>
+          <Phone dark={t.dark} accent={t.accent}>
+            <ScreenBubble theme={theme} accent={t.accent}/>
+          </Phone>
+        </DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+
+// ─── Single-screen focused view ───────────────────────────────────────
+function FocusView({ t, which }) {
+  const theme = themes[t.dark ? 'dark' : 'light'];
+  const screen = {
+    idle: <ScreenIdle theme={theme} accent={t.accent}/>,
+    listening: <ScreenListening theme={theme} accent={t.accent} vizStyle={t.vizStyle}/>,
+    conversation: <ScreenConversation theme={theme} accent={t.accent}/>,
+    overlay: <ScreenOverlay theme={theme} accent={t.accent} vizStyle={t.vizStyle}/>,
+    bubble: <ScreenBubble theme={theme} accent={t.accent}/>,
+  }[which];
+  return (
+    <div style={{
+      minHeight: '100vh', display: 'flex',
+      alignItems: 'center', justifyContent: 'center',
+      background: t.dark ? '#1B1614' : '#E8E2DC',
+      padding: 40,
+    }}>
+      <Phone dark={t.dark} accent={t.accent}>{screen}</Phone>
+    </div>
+  );
+}
+
+// ─── App ──────────────────────────────────────────────────────────────
+function App() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  return (
+    <>
+      {t.focusState === 'all' ? <MultiView t={t}/> : <FocusView t={t} which={t.focusState}/>}
+
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="State">
+          <TweakSelect
+            label="View" value={t.focusState}
+            options={[
+              { value: 'all',          label: 'All five (canvas)' },
+              { value: 'idle',         label: 'Focus · Idle' },
+              { value: 'listening',    label: 'Focus · Listening' },
+              { value: 'conversation', label: 'Focus · Conversation' },
+              { value: 'overlay',      label: 'Focus · Overlay bar' },
+              { value: 'bubble',       label: 'Focus · Bubble' },
+            ]}
+            onChange={(v) => setTweak('focusState', v)}
+          />
+        </TweakSection>
+
+        <TweakSection label="Voice viz">
+          <TweakRadio
+            label="Style" value={t.vizStyle}
+            options={[
+              { value: 'bars', label: 'Bars' },
+              { value: 'orb', label: 'Orb' },
+              { value: 'particles', label: 'Dots' },
+            ]}
+            onChange={(v) => setTweak('vizStyle', v)}
+          />
+        </TweakSection>
+
+        <TweakSection label="Theme">
+          <TweakColor
+            label="Accent" value={t.accent}
+            options={ACCENT_OPTIONS}
+            onChange={(v) => setTweak('accent', v)}
+          />
+          <TweakToggle
+            label="Dark mode" value={t.dark}
+            onChange={(v) => setTweak('dark', v)}
+          />
+        </TweakSection>
+      </TweaksPanel>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+
+</body>
+</html>

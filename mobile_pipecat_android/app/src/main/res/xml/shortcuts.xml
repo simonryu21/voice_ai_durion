@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="localTest"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:shortcutShortLabel="@string/local_datastore_test"
+        android:shortcutLongLabel="@string/local_datastore_test">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.lgcns.codeengine"
+            android:targetClass="com.lgcns.codeengine.activity.PlaceSearchActivity"
+            android:data="blahblah"/>
+    </shortcut>
+    <shortcut
+        android:shortcutId="remoteTest"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:shortcutShortLabel="@string/remote_datastore_test"
+        android:shortcutLongLabel="@string/remote_datastore_test">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.lgcns.codeengine"
+            android:targetClass="com.lgcns.codeengine.activity.UserListActivity"
+            android:data="blahblah"/>
+    </shortcut>
+</shortcuts>

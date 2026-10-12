@@ -1,0 +1,21 @@
+{
+    "mcpServers": {
+      "postgres": {
+        "command": "npx",
+        "args": [
+          "-y",
+          "@modelcontextprotocol/server-postgres",
+          "postgresql://postgres:postgres@localhost:5432/postgres"
+        ]
+      },
+      "gportal-ax-mcp": {
+        "type": "streamableHttp",
+        "url": "https://axdev.gp.lgcns.com/ikep-webapp/axink-api/api/json-rpc",
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6Im1jcF9jbGllbnQiLCJjbGllbnRfaWQiOiJNQ1BfQ0xJX0lEXzIwMjYwMzAzMDgxNzIxIiwiaWF0IjoxNzczMDMzOTAzLCJleHAiOjE3NzMwMzc1MDMsImlzcyI6Im1jcF9sb2dpbiIsImp0aSI6ImYyYjFiZWQwLTE4ODctNGE4MS05ZWIxLTUwMThiNzY3OGI1ZSJ9.bjInnfC3jNRmX91Px2sr54vpgFN7b2VQcUoY8TtlHks",
+          "X-User-Id": "admin",
+          "Content-Type": "application/json"
+        }
+      }
+    }
+  }

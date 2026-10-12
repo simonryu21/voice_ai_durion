@@ -1,0 +1,91 @@
+<resources>
+    <string name="app_name">DuriOn</string>
+    <string name="main_search_hint">Input your destination</string>
+    <string name="quick_menu_my_loc">My location</string>
+    <string name="search_no_result">No result.</string>
+    <string name="recent_search">Recent Search</string>
+    <string name="favorite_location">Fav. Location</string>
+    <string name="start_point">My Loc.</string>
+    <string name="ok_button">Confirm</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="move_button">Move</string>
+    <string name="ok_move_button">Move</string>
+
+    <string name="feature_permission_guide_msg">For using the service, the access permission to %1$s is required.\n\nDo you give the permission now?</string>
+    <string name="permission_storage">Data storage</string>
+    <string name="permission_phone">Phone</string>
+    <string name="permission_contacts">Address book</string>
+    <string name="permission_camera">Camera</string>
+    <string name="permission_microphone">Mic</string>
+    <string name="permission_audio_settings">Audio settings</string>
+    <string name="permission_calendar">Calendar</string>
+    <string name="permission_location">Location</string>
+    <string name="permission_device_accounts">Accounts</string>
+    <string name="permission_notification">Notification</string>
+    <string name="permission_video">Video</string>
+    <string name="feature_permission_guide_title">Permission Setting Information</string>
+    <string name="feature_permission_ok_label">Enable</string>
+    <string name="feature_permission_cancel_label">Disable</string>
+    <string name="choose_the_way_to_get_video">Choose the way to get the video.</string>
+    <string name="choose_the_way_to_get_picture">Choose the way to get the picture.</string>
+    <string name="video_compressing">Video compressing..</string>
+    <string name="str_rootingcheck_msg">The app could not be started with the rooted OS.</string>
+
+    <string name="main_action_rotate">Rotate 90 degrees clockwise</string>
+    <string name="main_action_crop">Save</string>
+
+    <string name="remote_datastore_test">Remote Test</string>
+    <string name="local_datastore_test">Local Test</string>
+
+    <string name="biometric_authentication">Biometric Authentication</string>
+    <string name="biometric_authentication_subtitle">Use your fingerprint to authenticate</string>
+    <string name="biometric_authentication_description">This app uses your makes use of device biometrics (user fingerprint) to authenticate the dialog.</string>
+
+    <!-- NFC -->
+    <string name="nfc_info">Read the NFC tag.</string>
+    <string name="nfc_message">Place the back of your phone\nclose to the NFC tag.</string>
+    <string name="nfc_error_not_supported_device">Device does not support NFC.</string>
+    <string name="nfc_error_duplicate_tag">NFC tag was searched twice.</string>
+    <string name="nfc_error_no_ndef">NFC tag is not NDEF compliant.</string>
+    <string name="nfc_error_user_cancel">NFC tagging has been cancelled.</string>
+    <string name="nfc_error_disabled">NFC is disabled.\nWould you like to go to your phone settings?</string>
+
+    <string name="msg_close">Close</string>
+    <string name="str_different_key_msg">It does not equal the app. key.</string>
+    <string name="str_different_package_name_msg">It does not equal the package name.</string>
+
+    <string name="retry">Retry</string>
+    <string name="previous">Previous</string>
+    <string name="home">Home</string>
+    <string name="app_exit">App. Exit</string>
+    <string name="refresh">Refresh</string>
+    <string name="confirm">Confirm</string>
+
+    <!-- Pipecat Voice UI -->
+    <string name="pipecat_state_ready">ready</string>
+    <string name="pipecat_state_listening">listening</string>
+    <string name="pipecat_state_thinking">thinking</string>
+    <string name="pipecat_state_speaking">speaking</string>
+    <string name="pipecat_history_label">History</string>
+    <string name="pipecat_ask_placeholder">Ask anything</string>
+    <string name="pipecat_ask_listening_label">listening</string>
+    <string name="pipecat_ask_attach_label">Attach</string>
+    <string name="pipecat_ask_mic_label">Start listening</string>
+    <string name="pipecat_ask_stop_label">Stop listening</string>
+    <string name="pipecat_ask_wave_label">Voice mode</string>
+    <string name="pipecat_overlay_listening_label">listening</string>
+    <string name="pipecat_overlay_stop_label">Stop</string>
+    <string name="pipecat_preview_close">close</string>
+    <string name="pipecat_idle_greeting_morning">Good morning,</string>
+    <string name="pipecat_idle_greeting_afternoon">Good afternoon,</string>
+    <string name="pipecat_idle_greeting_evening">Good evening,</string>
+    <string name="pipecat_idle_headline_suffix">how can I help today?</string>
+    <string name="pipecat_idle_highlight">today</string>
+    <string name="pipecat_idle_suggestions_label">Suggestions</string>
+    <string name="pipecat_idle_see_all">see all →</string>
+    <string name="pipecat_idle_session_prefix">SESSION</string>
+    <string name="pipecat_conversation_reply_placeholder">Reply or ask follow-up</string>
+    <string name="pipecat_conversation_typing_label">typing</string>
+    <string name="pipecat_listening_system_label">microphone active · whisper-large-v3</string>
+
+</resources>

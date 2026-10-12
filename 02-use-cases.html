@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DuriOn · Main 시나리오</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E0B0A; --surface:#1A1413; --surface2:#241B19;
+    --border:rgba(255,255,255,0.09); --border2:rgba(255,255,255,0.06);
+    --text:#F7F1ED; --dim:rgba(247,241,237,0.62); --faint:rgba(247,241,237,0.34);
+    --accent:#C73E1D; --accent2:#E55934; --accent3:#D94A2B;
+    --green:#4ADE80; --blue:#4C7DE5; --gold:#C9A227; --teal:#2E7D6B;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(1100px 640px at 82% -8%, rgba(199,62,29,0.20), transparent 58%),
+      radial-gradient(800px 560px at -8% 30%, rgba(76,125,229,0.08), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Geist',ui-sans-serif,system-ui,-apple-system,sans-serif;
+    letter-spacing:-0.01em;-webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'Geist Mono',ui-monospace,monospace}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+
+  /* nav */
+  .topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    background:rgba(14,11,10,0.72);border-bottom:1px solid var(--border2)}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+  .brand{display:flex;align-items:center;gap:11px}
+  .mark{width:26px;height:26px;flex-shrink:0}
+  .brand b{font-size:19px;font-weight:700;letter-spacing:-0.02em}
+  .brand small{font-size:11px;color:var(--faint);font-weight:500}
+  .navlinks{display:flex;gap:8px}
+  .navlinks a{font-size:12.5px;text-decoration:none;color:var(--dim);padding:7px 13px;border-radius:9px;border:1px solid transparent;transition:.15s}
+  .navlinks a:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+  .navlinks a.on{color:#fff;background:var(--accent);border-color:var(--accent)}
+
+  /* hero */
+  .hero{padding:64px 0 20px}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent2);padding:6px 12px;border-radius:999px;background:rgba(199,62,29,0.12);border:1px solid rgba(199,62,29,0.35)}
+  .hero h1{font-size:clamp(34px,5.4vw,60px);line-height:1.05;font-weight:800;letter-spacing:-0.035em;margin:20px 0 0;max-width:none;white-space:nowrap}
+  .hero h1 .hl{background:linear-gradient(180deg,transparent 58%,rgba(199,62,29,0.45) 58%)}
+  .hero p.lede{margin:20px 0 0;font-size:clamp(15px,2vw,18px);line-height:1.6;color:var(--dim);max-width:60ch}
+
+  .sec-label{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+  section{padding:40px 0}
+  .sec-title{font-size:clamp(24px,3.2vw,34px);font-weight:700;letter-spacing:-0.03em;margin:10px 0 0;line-height:1.12}
+  .sec-sub{color:var(--dim);font-size:15.5px;margin:12px 0 0;max-width:64ch;line-height:1.6}
+
+  /* ── HERO scenario card ── */
+  .hero-scene{
+    margin-top:30px;border-radius:24px;border:1px solid rgba(199,62,29,0.4);
+    background:linear-gradient(160deg,rgba(199,62,29,0.16),var(--surface) 55%);
+    overflow:hidden;
+  }
+  .hs-top{padding:26px 30px 22px;border-bottom:1px solid var(--border);display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap}
+  .hs-badge{font-family:'Geist Mono',monospace;font-size:11px;color:#fff;background:var(--accent);padding:5px 11px;border-radius:8px;white-space:nowrap}
+  .hs-situ{flex:1;min-width:260px}
+  .hs-situ .lbl{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+  .hs-situ p{margin:8px 0 0;font-size:15px;line-height:1.55;color:var(--dim)}
+  .hs-utter{
+    margin:0;font-size:clamp(18px,2.4vw,26px);font-weight:600;line-height:1.4;letter-spacing:-0.02em;
+    padding:16px 20px;border-radius:16px;background:rgba(14,11,10,0.5);border:1px solid var(--border);
+    max-width:520px;
+  }
+  .hs-utter .q{color:var(--accent2)}
+  .hs-flow{padding:26px 30px 30px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .step{border-radius:16px;background:rgba(14,11,10,0.42);border:1px solid var(--border);padding:18px 18px;position:relative}
+  .step .n{position:absolute;top:-11px;left:16px;width:24px;height:24px;border-radius:50%;background:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:'Geist Mono',monospace}
+  .step .app{display:flex;align-items:center;gap:9px;margin-top:6px}
+  .step .app .a-ico{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff}
+  .step .app .a-name{font-weight:600;font-size:15px}
+  .step .state{margin-top:12px;font-size:13px;color:var(--dim);line-height:1.5}
+  .step .state b{color:var(--text)}
+  .step .left{margin-top:12px;display:inline-block;font-family:'Geist Mono',monospace;font-size:10.5px;
+    padding:4px 9px;border-radius:7px;background:rgba(199,62,29,0.18);color:#ffcfc2}
+  .hs-result{padding:0 30px 26px}
+  .hs-result .box{border-radius:14px;background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.3);
+    padding:15px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .hs-result .tick{width:26px;height:26px;border-radius:50%;background:var(--green);color:#062611;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+  .hs-result .box p{margin:0;font-size:14px;color:#cdeed7}
+  .hs-result .box p b{color:#fff}
+
+  /* ── killer grid ── */
+  .kgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+  .kcard{border-radius:20px;border:1px solid var(--border);background:var(--surface);padding:22px 22px;display:flex;flex-direction:column;gap:14px;transition:.18s}
+  .kcard:hover{transform:translateY(-3px);border-color:rgba(199,62,29,0.4)}
+  .khead{display:flex;align-items:center;gap:12px}
+  .khead .kico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0}
+  .khead .kt{font-size:17px;font-weight:600}
+  .khead .ks{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+  .utter{font-size:14.5px;font-weight:600;line-height:1.45;padding:12px 14px;border-radius:12px;
+    background:rgba(14,11,10,0.5);border:1px solid var(--border)}
+  .utter .q{color:var(--accent2)}
+  .arrow{display:flex;align-items:center;gap:8px;color:var(--faint);font-family:'Geist Mono',monospace;font-size:11px}
+  .arrow .line{flex:1;height:1px;background:var(--border)}
+  .outcome{font-size:13.5px;line-height:1.55;color:var(--dim)}
+  .outcome b{color:var(--text)}
+  .tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:2px}
+  .tg{font-size:10.5px;font-family:'Geist Mono',monospace;padding:4px 9px;border-radius:999px;background:var(--surface2);border:1px solid var(--border2);color:var(--dim)}
+
+  /* PLAN timeline scenario (full width) */
+  .plan{margin-top:16px;grid-column:1 / -1;border-radius:20px;border:1px solid rgba(201,162,39,0.35);
+    background:linear-gradient(160deg,rgba(201,162,39,0.10),var(--surface) 55%);padding:26px 26px}
+  .plan .phead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .plan .kico{width:44px;height:44px;border-radius:12px;background:rgba(201,162,39,0.16);border:1px solid rgba(201,162,39,0.35);display:flex;align-items:center;justify-content:center;font-size:21px}
+  .plan .utter{margin-top:16px;max-width:560px}
+  .plan .utter .q{color:var(--gold)}
+  .timeline{margin-top:22px;display:flex;flex-direction:column;gap:0;position:relative;padding-left:8px}
+  .tl{display:grid;grid-template-columns:64px 1fr;gap:16px;padding:12px 0;position:relative}
+  .tl:not(:last-child){border-bottom:1px solid var(--border2)}
+  .tl .time{font-family:'Geist Mono',monospace;font-size:13px;font-weight:600;color:var(--gold);padding-top:2px}
+  .tl .body{display:flex;flex-direction:column;gap:4px}
+  .tl .ti{font-size:14.5px;font-weight:600}
+  .tl .src{font-family:'Geist Mono',monospace;font-size:11px;color:var(--faint)}
+  .tl .src.mail{color:var(--blue)}
+  .tl .src.cal{color:var(--teal)}
+  .tl .src.act{color:var(--accent2)}
+  .plan .say{margin-top:20px;border-radius:14px;background:rgba(14,11,10,0.5);border:1px solid var(--border);padding:14px 18px;font-size:14px;color:var(--dim);line-height:1.6}
+  .plan .say b{color:var(--text)}
+
+  /* comparison strip */
+  .compare{margin-top:34px;border-radius:20px;border:1px solid var(--border);overflow:hidden}
+  .compare .row{display:grid;grid-template-columns:1.4fr 1fr 1fr;border-bottom:1px solid var(--border2)}
+  .compare .row:last-child{border-bottom:none}
+  .compare .row > div{padding:14px 18px;font-size:13.5px}
+  .compare .row.head > div{background:var(--surface2);font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+  .compare .row.head > div.us{color:var(--accent2)}
+  .compare .c-item{font-weight:500}
+  .compare .no{color:var(--faint)}
+  .compare .yes{color:#fff}
+  .compare .us{background:rgba(199,62,29,0.06)}
+
+  /* ── 10 scenarios list ── */
+  .tenlist{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:30px}
+  .tenrow{display:grid;grid-template-columns:34px 1fr;gap:14px;align-items:start;
+    border-radius:14px;border:1px solid var(--border);background:var(--surface);padding:16px 16px;transition:.16s}
+  .tenrow:hover{border-color:rgba(199,62,29,0.4);transform:translateY(-2px)}
+  .tenrow .no{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+    font-family:'Geist Mono',monospace;font-size:14px;font-weight:600;color:#fff;background:var(--accent)}
+  .tenrow .tq{font-size:14.5px;font-weight:600;line-height:1.4}
+  .tenrow .tq .q{color:var(--accent2)}
+  .tenrow .td{margin-top:7px;font-size:12.5px;color:var(--dim);line-height:1.5}
+  .tenrow .td b{color:var(--text)}
+  .tenrow .tt{margin-top:9px;display:inline-block;font-family:'Geist Mono',monospace;font-size:9.5px;letter-spacing:.06em;
+    text-transform:uppercase;padding:3px 8px;border-radius:6px;background:var(--surface2);border:1px solid var(--border2);color:var(--dim)}
+  .tenpick{margin-top:22px;border-radius:16px;border:1px solid rgba(199,62,29,0.35);
+    background:linear-gradient(160deg,rgba(199,62,29,0.1),var(--surface) 60%);padding:18px 22px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+  .tenpick .star{font-size:22px}
+  .tenpick p{margin:0;font-size:13.5px;color:var(--dim);line-height:1.55}
+  .tenpick p b{color:var(--text)}
+
+  footer{padding:36px 0 60px;border-top:1px solid var(--border2);margin-top:26px}
+  .foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  .foot .l{color:var(--faint);font-size:12px}
+  .backbtn{display:inline-flex;align-items:center;gap:9px;text-decoration:none;background:var(--surface);border:1px solid var(--border);
+    color:var(--text);padding:12px 20px;border-radius:12px;font-weight:600;font-size:14px}
+  .backbtn:hover{border-color:var(--accent)}
+
+  @media(max-width:960px){
+    .hs-flow{grid-template-columns:1fr}
+    .kgrid{grid-template-columns:1fr}
+    .compare .row{grid-template-columns:1fr}
+    .compare .row.head{display:none}
+    .tl{grid-template-columns:56px 1fr}
+  }
+  @media(max-width:520px){
+    .hero h1{white-space:normal}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="topbar"><div class="wrap">
+  <div class="brand">
+    <svg class="mark" viewBox="0 0 22 22"><rect width="22" height="22" rx="5" fill="#C73E1D"/><rect x="5" y="5" width="4" height="12" fill="#fff"/><rect x="13" y="5" width="4" height="6" fill="#fff"/></svg>
+    <div><b>DuriOn</b> &nbsp;<small class="mono">App Concierge Voice AI</small></div>
+  </div>
+  <div class="navlinks">
+    <a href="01-structure-features.html">구조 &amp; 기능</a>
+    <a class="on" href="02-use-cases.html">시나리오</a>
+  </div>
+</div></div>
+
+<!-- HERO -->
+<div class="wrap hero">
+  <span class="kicker">◉ Main Use Cases</span>
+  <h1>말이 끝나면, <span class="hl">일도 거의 끝나</span> 있습니다.</h1>
+  <p class="lede">손과 눈이 바쁜 순간일수록 진가가 드러납니다. DuriOn이 실제로 어디까지
+    데려다주는지, 데모에서 보여줄 대표 시나리오들입니다.</p>
+</div>
+
+<!-- HERO SCENARIO -->
+<section class="wrap">
+  <div class="sec-label">Hero Scenario</div>
+  <h2 class="sec-title">운전 중 30초 · 3개 앱 연속 핸드오프 실행</h2>
+
+  <div class="hero-scene">
+    <div class="hs-top">
+      <span class="hs-badge">🚗 운전 중</span>
+      <div class="hs-situ">
+        <span class="lbl">상황</span>
+        <p>거래처 전화로 미팅 장소가 갑자기 바뀐 외근 길. 갓길에 세울 시간도 없고,
+          핸들에서 손을 뗄 수도 없다. 머릿속엔 할 일 3가지.</p>
+      </div>
+      <p class="hs-utter">"목적지를 OO건설 본사로 바꾸고, <span class="q">김 팀장</span>한테 10분 늦는다고 카톡으로 알려줘.
+        그리고 <span class="q">BTS 최신곡</span> 틀어줘."</p>
+    </div>
+
+    <div class="hs-flow">
+      <div class="step">
+        <div class="n">1</div>
+        <div class="app"><div class="a-ico" style="background:#1A73E8">T</div><div class="a-name">티맵</div></div>
+        <div class="state"><b>경로 안내 시작 상태</b>로 진입 — 목적지 = OO건설 본사. 화면만 열리는 게 아니라 내비가 이미 안내 중.</div>
+        <span class="left">남은 액션 · 0회</span>
+      </div>
+      <div class="step">
+        <div class="n">2</div>
+        <div class="app"><div class="a-ico" style="background:#FEE500;color:#000">K</div><div class="a-name">카카오톡</div></div>
+        <div class="state">김 팀장 채팅방 + <b>"10분 정도 늦을 것 같습니다." 입력 완료</b> 상태. 신호 대기 시 「전송」만 누르면 끝.</div>
+        <span class="left">남은 액션 · 1회 (전송)</span>
+      </div>
+      <div class="step">
+        <div class="n">3</div>
+        <div class="app"><div class="a-ico" style="background:#1DB954">S</div><div class="a-name">Spotify</div></div>
+        <div class="state">BTS 최신곡 <b>자동 재생 시작</b>. "무슨 노래 들으시겠어요?" 되묻지 않고 바로 재생.</div>
+        <span class="left">남은 액션 · 0회</span>
+      </div>
+    </div>
+
+    <div class="hs-result"><div class="box">
+      <div class="tick">✓</div>
+      <p><b>핸들에서 손을 안 뗀 채 30초.</b> 3개 앱 · 1 세션 연속 핸드오프. 위험 액션(전송)만 사용자에게 남기는 안전 가드레일.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- KILLER SCENARIOS -->
+<section class="wrap">
+  <div class="sec-label">Killer Scenarios</div>
+  <h2 class="sec-title">상태 수준에서 끝내는 6가지 순간</h2>
+  <p class="sec-sub">공통점 — 앱을 여는 게 아니라 <b style="color:var(--text)">앱 안의 특정 상태까지 진입</b>.
+    사용자는 마지막 1 액션만 하면 끝.</p>
+
+  <div class="kgrid">
+
+    <!-- 메신저 -->
+    <div class="kcard">
+      <div class="khead">
+        <div class="kico" style="background:rgba(254,229,0,0.14);border:1px solid rgba(254,229,0,0.3)">💬</div>
+        <div><div class="ks">Messaging · Deeplink</div><div class="kt">메신저 — 손 안 대고 전송 직전까지</div></div>
+      </div>
+      <div class="utter">"엄마한테 나 <span class="q">10분 늦는다</span>고 카톡 보내줘"</div>
+      <div class="arrow"><span class="line"></span>→<span class="line"></span></div>
+      <div class="outcome">엄마 채팅방 진입 + <b>"10분 늦어요" 입력 완료</b> 상태. Lv.1(앱만 열림)이면 엄마 검색·타이핑을 다시 해야 하지만, DuriOn은 <b>「전송」만</b> 남긴다.</div>
+      <div class="tags"><span class="tg">대상+내용</span><span class="tg">가드레일: 전송</span></div>
+    </div>
+
+    <!-- 결제/송금 Vision -->
+    <div class="kcard">
+      <div class="khead">
+        <div class="kico" style="background:rgba(76,125,229,0.14);border:1px solid rgba(76,125,229,0.3)">💳</div>
+        <div><div class="ks">Payment · Vision Track</div><div class="kt">결제·송금 — 다녀오면 결과까지 인식</div></div>
+      </div>
+      <div class="utter">"Sarah한테 PayPal로 <span class="q">$50</span> 보내줘"</div>
+      <div class="arrow"><span class="line"></span>→<span class="line"></span></div>
+      <div class="outcome">보안·규제로 deeplink가 막힌 영역. 외부 결제 사이트로 핸드오프 → 결제 후 <b>「Back to AI」</b>로 복귀하면 화면을 Vision LLM이 읽어 <b>"$50 송금 완료됐네요"</b> 로 대화를 이어감.</div>
+      <div class="tags"><span class="tg">외부 핸드오프</span><span class="tg">Vision 복귀 분석</span></div>
+    </div>
+
+    <!-- 회의 Agent -->
+    <div class="kcard">
+      <div class="khead">
+        <div class="kico" style="background:rgba(199,62,29,0.14);border:1px solid rgba(199,62,29,0.3)">🧑‍💼</div>
+        <div><div class="ks">Meeting Agent</div><div class="kt">회의 — 받아쓰고, 요약하고, 정리</div></div>
+      </div>
+      <div class="utter">"회의 시작할게. <span class="q">기록</span>해줘"</div>
+      <div class="arrow"><span class="line"></span>→<span class="line"></span></div>
+      <div class="outcome">홈 카드 「회의」로 진입 → 발화를 실시간 받아쓰고, 끝나면 <b>안건·결정사항·액션아이템</b>을 자동 요약. "누가 무엇을 언제까지"를 놓치지 않는다.</div>
+      <div class="tags"><span class="tg">실시간 STT</span><span class="tg">요약 · 액션아이템</span></div>
+    </div>
+
+    <!-- 동시통역 Agent -->
+    <div class="kcard">
+      <div class="khead">
+        <div class="kico" style="background:rgba(46,125,107,0.16);border:1px solid rgba(46,125,107,0.35)">🎧</div>
+        <div><div class="ks">Live Interpretation</div><div class="kt">동시통역 — 해외 미팅 실시간 양방향</div></div>
+      </div>
+      <div class="utter">"이제부터 <span class="q">동시통역</span> 켜줘"</div>
+      <div class="arrow"><span class="line"></span>→<span class="line"></span></div>
+      <div class="outcome">Live 오디오로 <b>저지연 양방향 통역</b>. 웹 챗봇은 마이크를 놓고 네이티브 앱이 단독 점유 → 끊김 없는 대화. 통역 종료 시 챗봇으로 자동 복귀.</div>
+      <div class="tags"><span class="tg">Live</span><span class="tg">Native Audio</span></div>
+    </div>
+
+    <!-- 번역 Agent -->
+    <div class="kcard">
+      <div class="khead">
+        <div class="kico" style="background:rgba(76,125,229,0.14);border:1px solid rgba(76,125,229,0.3)">🌐</div>
+        <div><div class="ks">Translation Agent</div><div class="kt">번역 — 외국어 대화·문서 실시간</div></div>
+      </div>
+      <div class="utter">"이 문장 영어로 <span class="q">번역</span>해줘"</div>
+      <div class="arrow"><span class="line"></span>→<span class="line"></span></div>
+      <div class="outcome">봇 내 웹 번역 파이프라인으로 즉시 번역. 동시통역이 "실시간 회화"라면, 번역 Agent는 <b>정확한 문장 단위 번역</b>에 특화. 요청 단위로 web/native 분기.</div>
+      <div class="tags"><span class="tg">웹 번역 파이프라인</span><span class="tg">문장 단위</span></div>
+    </div>
+
+    <!-- 개인화 기억 -->
+    <div class="kcard">
+      <div class="khead">
+        <div class="kico" style="background:rgba(199,62,29,0.14);border:1px solid rgba(199,62,29,0.3)">🧠</div>
+        <div><div class="ks">Memory · mem0</div><div class="kt">기억 — 매번 처음부터 설명 안 해도</div></div>
+      </div>
+      <div class="utter">"나 <span class="q">우유 알레르기</span> 있는 거 기억하지? 근처 디저트 카페 찾아서 길안내해줘"</div>
+      <div class="arrow"><span class="line"></span>→<span class="line"></span></div>
+      <div class="outcome">mem0가 개인 제약을 기억 → 조건 반영 검색 → 지도 앱 <b>경로 안내 상태</b>까지. 기억 + 검색 + 앱 실행이 한 발화에 묶인다.</div>
+      <div class="tags"><span class="tg">개인 기억</span><span class="tg">검색+실행 결합</span></div>
+    </div>
+
+    <!-- PLAN — full width timeline -->
+    <div class="plan">
+      <div class="phead">
+        <div class="kico">📅</div>
+        <div><div class="ks mono" style="color:var(--gold)">PLAN · Daily Brief</div><div class="kt" style="font-size:18px;font-weight:600">PLAN — 메일·일정으로 오늘 하루를 타임라인으로</div></div>
+      </div>
+      <div class="utter">"굿모닝 DuriOn. <span class="q">오늘 뭐부터 해야 돼?</span>"</div>
+      <p style="margin:14px 0 0;font-size:13.5px;color:var(--dim);line-height:1.6">
+        DuriOn이 밤사이 쌓인 <b style="color:var(--blue)">메일</b>과 <b style="color:var(--teal)">캘린더 일정</b>을 읽어,
+        오늘 할 일을 <b style="color:var(--text)">시간 순서(timeline)</b>로 재구성해 음성으로 브리핑합니다.</p>
+
+      <div class="timeline">
+        <div class="tl">
+          <div class="time">09:00</div>
+          <div class="body"><div class="ti">주간 팀 스탠드업</div><div class="src cal">▸ 캘린더 · 회의실 B · 30분</div></div>
+        </div>
+        <div class="tl">
+          <div class="time">11:00</div>
+          <div class="body"><div class="ti">디자인 시안 회신 (마감)</div><div class="src mail">▸ 메일 · 김대리 "오늘까지 부탁드려요"</div></div>
+        </div>
+        <div class="tl">
+          <div class="time">13:30</div>
+          <div class="body"><div class="ti">OO건설 미팅 이동</div><div class="src act">▸ 액션 · "티맵 길안내 열까요?"</div></div>
+        </div>
+        <div class="tl">
+          <div class="time">15:00</div>
+          <div class="body"><div class="ti">계약서 검토 회신</div><div class="src mail">▸ 메일 · 법무팀 첨부 3건</div></div>
+        </div>
+        <div class="tl">
+          <div class="time">18:00</div>
+          <div class="body"><div class="ti">부모님 저녁 약속</div><div class="src cal">▸ 캘린더 · 개인 일정</div></div>
+        </div>
+      </div>
+
+      <div class="say">
+        🔊 <b>"오늘은 회의 하나, 마감 둘이에요.</b> 11시 디자인 시안 마감이 가장 급하고, 1시 반엔 OO건설 이동이 있어요.
+        지금 시안 작업부터 시작할까요? <b>13시 반 이동 때 티맵 길안내를 미리 걸어둘게요.</b>"
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- COMPARE -->
+<section class="wrap">
+  <div class="sec-label">Why DuriOn</div>
+  <h2 class="sec-title">기존 음성비서와 무엇이 다른가</h2>
+  <div class="compare">
+    <div class="row head"><div>항목</div><div>일반 음성비서 (Siri · Bixby)</div><div class="us">DuriOn</div></div>
+    <div class="row"><div class="c-item">앱 내부 상태 진입 깊이</div><div class="no">0 — 음성 답변만</div><div class="us yes"><b>3–5 — 대상·내용·필터·정렬·맥락</b></div></div>
+    <div class="row"><div class="c-item">한 세션 멀티앱 연속 핸드오프</div><div class="no">✗</div><div class="us yes"><b>✓ 운전 시나리오의 핵심</b></div></div>
+    <div class="row"><div class="c-item">앱 복귀 후 대화 이어가기</div><div class="no">✗ 컨텍스트 단절</div><div class="us yes"><b>✓ Vision 복귀 분석</b></div></div>
+    <div class="row"><div class="c-item">사용자 폰 맞춤 라우팅</div><div class="no">✗</div><div class="us yes"><b>✓ App Inventory 기반</b></div></div>
+    <div class="row"><div class="c-item">결제·송금 화면 직전 진입</div><div class="no">✗</div><div class="us yes"><b>✓ 가드레일 동반</b></div></div>
+  </div>
+</section>
+
+<!-- 10 SCENARIOS -->
+<section class="wrap">
+  <div class="sec-label">Query Showcase</div>
+  <h2 class="sec-title">DuriOn 가치를 빛낼 사용자 질의 시나리오 10선</h2>
+  <p class="sec-sub">텍스트로 답하면 손해인 발화만 골랐습니다. 손·눈이 바쁜 순간, 멀티스텝,
+    개인화, 앱 복귀 연속성 — DuriOn의 진가가 드러나는 한마디들.</p>
+
+  <div class="tenlist">
+    <div class="tenrow">
+      <div class="no">1</div>
+      <div>
+        <div class="tq">"강남역까지 <span class="q">차로 가는 길</span> 띄워줘"</div>
+        <div class="td">길을 읽어주는 대신 티맵·네이버지도를 <b>경로 안내 시작 상태</b>로 실행. 운전 중처럼 화면 조작이 어려운 상황에서 가치 극대화.</div>
+        <span class="tt">Navigation</span>
+      </div>
+    </div>
+    <div class="tenrow">
+      <div class="no">2</div>
+      <div>
+        <div class="tq">"엄마한테 <span class="q">'오늘 늦어'</span> 카톡 보내려고"</div>
+        <div class="td">카카오톡을 엄마 채팅방 + <b>메시지 입력 완료</b> 상태로. 손이 바쁜 상황에서 앱 진입 단계를 음성으로 점프.</div>
+        <span class="tt">Messaging</span>
+      </div>
+    </div>
+    <div class="tenrow">
+      <div class="no">3</div>
+      <div>
+        <div class="tq">"<span class="q">지도</span> 켜줘" <span style="color:var(--faint);font-weight:500">(모호한 발화)</span></div>
+        <div class="td">네이버지도·티맵 둘 다 있으면 <b>"어느 걸로 열까요?"</b> 음성 재질의. 개인 인벤토리 기반 후보 선택의 똑똑함.</div>
+        <span class="tt">Disambiguation</span>
+      </div>
+    </div>
+    <div class="tenrow">
+      <div class="no">4</div>
+      <div>
+        <div class="tq">(길찾기 앱 다녀온 뒤) <span class="q">"길 잘 찾으셨어요?"</span></div>
+        <div class="td">앱을 떠났다 돌아와도 맥락이 끊기지 않음. <b>"도착 예상시간 알림 걸어둘까요?"</b>로 자연스럽게 이어감.</div>
+        <span class="tt">Return Continuity</span>
+      </div>
+    </div>
+    <div class="tenrow">
+      <div class="no">5</div>
+      <div>
+        <div class="tq">"토스로 김대리한테 <span class="q">3만원</span> 보내고 올게"</div>
+        <div class="td">송금 앱 복귀 후 화면을 읽어 <b>"송금 마치셨네요. 영수증 캡처해둘까요?"</b> 행동 → 복귀 → 후속 제안 루프.</div>
+        <span class="tt">Payment · Vision</span>
+      </div>
+    </div>
+    <div class="tenrow">
+      <div class="no">6</div>
+      <div>
+        <div class="tq">"어제 안 읽은 메일 중 <span class="q">중요한 것만</span> 요약해줘"</div>
+        <div class="td">Gmail·Outlook·네이버 메일을 가로질러 <b>핵심만 음성 브리핑</b>. 여러 계정을 한 번에.</div>
+        <span class="tt">Mail Summary</span>
+      </div>
+    </div>
+    <div class="tenrow">
+      <div class="no">7</div>
+      <div>
+        <div class="tq">"방금 받은 <span class="q">회의 초대 메일</span>, 일정에 넣어줘"</div>
+        <div class="td">메일 요약 + 캘린더 앱 실행을 <b>한 흐름으로 묶는</b> 멀티스텝. PLAN과 자연스럽게 연결.</div>
+        <span class="tt">Mail → Calendar</span>
+      </div>
+    </div>
+    <div class="tenrow">
+      <div class="no">8</div>
+      <div>
+        <div class="tq">"저번에 말한 그 <span class="q">추천 카페</span> 다시 알려줘"</div>
+        <div class="td">이전 세션 대화를 mem0가 기억해 <b>맥락 복원</b>. 매번 처음부터 설명할 필요 없음.</div>
+        <span class="tt">Memory</span>
+      </div>
+    </div>
+    <div class="tenrow">
+      <div class="no">9</div>
+      <div>
+        <div class="tq">"나 <span class="q">우유 알레르기</span> 있는 거 기억하지? 근처 디저트 카페 찾아 길안내해줘"</div>
+        <div class="td">개인 제약(기억) + 검색 + 앱 실행을 <b>한 발화</b>에 결합. DuriOn의 결합력을 보여주는 복합 시나리오.</div>
+        <span class="tt">Memory + Search + Exec</span>
+      </div>
+    </div>
+    <div class="tenrow">
+      <div class="no">10</div>
+      <div>
+        <div class="tq">"운전 중인데, <span class="q">집 도착하면 보일러</span> 켜지게 하고 가는 길에 주유소 띄워줘"</div>
+        <div class="td">음성만으로 여러 앱·조건을 한 발화에. <b>손·눈을 못 쓰는 상황</b>이야말로 음성 AI의 본질적 가치.</div>
+        <span class="tt">Hands-free · Multi-step</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tenpick">
+    <span class="star">⭐</span>
+    <p>데모/피칭용 <b>베스트 3</b> — <b style="color:var(--accent2)">1번</b>(길찾기) · <b style="color:var(--accent2)">4번</b>(복귀 연속성) · <b style="color:var(--accent2)">9번</b>(기억+검색+실행 결합).
+      범용 챗봇 대비 DuriOn의 해자가 가장 선명하게 드러납니다.</p>
+  </div>
+</section>
+
+<footer><div class="wrap foot">
+  <div class="l">DuriOn · App Concierge Voice AI &nbsp;·&nbsp; "말하면, 끝나기 직전 화면이 열립니다" &nbsp;·&nbsp; 데모 설명 자료 (2/2)</div>
+  <a class="backbtn" href="01-structure-features.html">←&nbsp; 구조 &amp; 기능으로</a>
+</div></footer>
+
+</body>
+</html>

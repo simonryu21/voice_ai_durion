@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DuriOn 앱 아이콘 전경 — 메인메뉴 좌상단 Wordmark와 동일한 "둥근 사각형 타일 + 흰 막대 2개".
+     Wordmark 비율(타일 코너반경 = 변의 5/22, 긴 막대 5,5 w4 h12 / 짧은 막대 13,5 w4 h6)을 그대로 사용.
+     타일 변=48(108 뷰포트 중앙, 30..78). 대각선이 런처 원형 마스크 안에 들어와 모서리가 잘리지 않으므로
+     "둥글지만 네모"로 보인다. 배경은 투명(ic_launcher_background). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- vermilion 둥근 사각 타일 (30,30)~(78,78), r=10.9 -->
+    <path
+        android:fillColor="#c73e1d"
+        android:pathData="M40.9,30 H67.1 A10.9,10.9 0 0 1 78,40.9 V67.1 A10.9,10.9 0 0 1 67.1,78 H40.9 A10.9,10.9 0 0 1 30,67.1 V40.9 A10.9,10.9 0 0 1 40.9,30 Z" />
+    <!-- 긴 막대 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M40.9,40.9 h8.73 v26.18 h-8.73 z" />
+    <!-- 짧은 막대 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M58.36,40.9 h8.73 v13.09 h-8.73 z" />
+</vector>

@@ -1,0 +1,98 @@
+category: music
+display_name: 음악 재생
+apps:
+  - app_id: spotify
+    display_name: Spotify
+    package_name: com.spotify.music
+    bundle_id: com.spotify.client
+    popularity_rank: 1
+    use_when: |
+      특정 곡·아티스트·플레이리스트 재생, 분위기 기반 음악 요청.
+      "스포티파이"를 명시했거나 영어 아티스트·곡명을 말할 때 적합.
+    examples:
+      - "BTS 최신곡 틀어줘"
+      - "Spotify에서 재즈 플레이리스트"
+      - "아이유 최근 노래"
+    parameters:
+      - name: query
+        type: string
+        required: true
+        description: "검색어 (아티스트, 곡, 플레이리스트)"
+    execution:
+      android:
+        - type: applink
+          priority: 1
+          template: "https://open.spotify.com/search/{query}"
+        - type: deeplink
+          priority: 2
+          template: "spotify:search:{query}"
+        - type: intent
+          priority: 3
+          action: android.intent.action.MEDIA_SEARCH
+      ios:
+        - type: universal_link
+          priority: 1
+          template: "https://open.spotify.com/search/{query}"
+        - type: scheme
+          priority: 2
+          template: "spotify:search:{query}"
+
+  - app_id: melon
+    display_name: 멜론
+    package_name: com.iloen.melon
+    bundle_id: com.iloen.melonapp
+    popularity_rank: 2
+    use_when: |
+      국내 K-pop 차트 음악, 멜론 차트, 한국 가요 재생에 적합.
+      "멜론"을 명시했거나 한국 차트 관련 발화일 때.
+    examples:
+      - "멜론 차트 1위 틀어줘"
+      - "멜론에서 아이유 검색"
+    parameters:
+      - name: query
+        type: string
+        required: false
+        description: "검색어 (없으면 메인 화면)"
+    execution:
+      android:
+        - type: deeplink
+          priority: 1
+          template: "melonapp://search/v3?q={query}"
+        - type: applink
+          priority: 2
+          template: "https://www.melon.com/search/total/index.htm?q={query}"
+      ios:
+        - type: scheme
+          priority: 1
+          template: "melonapp://search/v3?q={query}"
+
+  - app_id: youtube_music
+    display_name: YouTube Music
+    package_name: com.google.android.apps.youtube.music
+    bundle_id: com.google.ios.youtubemusic
+    popularity_rank: 3
+    use_when: |
+      뮤직비디오와 함께 듣기, YouTube 채널 기반 음악 재생.
+    examples:
+      - "유튜브 뮤직에서 라이브 공연"
+      - "YouTube Music에서 BTS"
+    parameters:
+      - name: query
+        type: string
+        required: false
+        description: "검색어"
+    execution:
+      android:
+        - type: applink
+          priority: 1
+          template: "https://music.youtube.com/search?q={query}"
+        - type: deeplink
+          priority: 2
+          template: "ytmusic://search/{query}"
+      ios:
+        - type: universal_link
+          priority: 1
+          template: "https://music.youtube.com/search?q={query}"
+        - type: scheme
+          priority: 2
+          template: "ytmusic://search/{query}"

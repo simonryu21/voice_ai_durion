@@ -1,0 +1,70 @@
+category: finance
+display_name: 송금/결제
+apps:
+  - app_id: toss
+    display_name: 토스
+    package_name: viva.republica.toss
+    bundle_id: viva.republica.toss
+    popularity_rank: 1
+    use_when: |
+      국내 송금, 계좌 잔액 확인, 토스 머니 사용. "토스"를 명시했거나
+      국내 친구·지인에게 원화 송금이 필요할 때.
+    examples:
+      - "토스로 친구한테 5만원 보내"
+      - "토스 잔액 확인"
+    parameters: []
+    execution:
+      android:
+        - type: deeplink
+          priority: 1
+          template: "supertoss://"
+        - type: applink
+          priority: 2
+          template: "https://toss.im/"
+      ios:
+        - type: scheme
+          priority: 1
+          template: "supertoss://"
+        - type: universal_link
+          priority: 2
+          template: "https://toss.im/"
+
+  - app_id: paypal
+    display_name: PayPal
+    package_name: com.paypal.android.p2pmobile
+    bundle_id: com.paypal.ppclient.touch.iphone
+    popularity_rank: 2
+    use_when: |
+      해외 송금, PayPal.me 링크 결제, 외국인 지인에게 USD 등 외화 송금.
+      "PayPal" 명시. 국내 송금엔 토스가 더 적합.
+    examples:
+      - "Sarah한테 PayPal로 50달러"
+      - "PayPal로 결제"
+    parameters:
+      - name: handle
+        type: string
+        required: false
+        description: "PayPal.me 핸들 (없으면 메인 화면)"
+      - name: amount
+        type: number
+        required: false
+        description: "송금 금액"
+      - name: currency
+        type: string
+        required: false
+        description: "ISO 통화 코드 (USD, EUR 등). 미지정 시 PayPal 기본값."
+    execution:
+      android:
+        - type: applink
+          priority: 1
+          template: "https://www.paypal.com/paypalme/{handle}/{amount}{currency}"
+        - type: deeplink
+          priority: 2
+          template: "paypal://"
+      ios:
+        - type: universal_link
+          priority: 1
+          template: "https://www.paypal.com/paypalme/{handle}/{amount}{currency}"
+        - type: scheme
+          priority: 2
+          template: "paypal://"

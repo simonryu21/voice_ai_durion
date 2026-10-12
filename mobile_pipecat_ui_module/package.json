@@ -1,0 +1,40 @@
+{
+  "name": "voice-ui-kit-monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "package",
+    "docs",
+    "examples/*",
+    "small-webrtc-prebuilt/client"
+  ],
+  "dependencies": {
+    "@daily-co/daily-js": "^0.84.0",
+    "@pipecat-ai/client-js": "^1.4.0",
+    "@pipecat-ai/client-react": "^1.1.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "tailwindcss": "^4.1.13"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.13",
+    "concurrently": "^9.1.0",
+    "postcss": "^8.5.6",
+    "postcss-prefix-selector": "^2.1.1",
+    "postcss-prefixwrap": "^1.57.0",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "build": "pnpm --filter=@pipecat-ai/voice-ui-kit build",
+    "dev": "pnpm --filter=@pipecat-ai/voice-ui-kit dev",
+    "dev:docs": "concurrently -n \"build,docs\" -c \"blue,green\" \"pnpm --filter=@pipecat-ai/voice-ui-kit build:watch\" \"pnpm --filter=@pipecat-ai/voice-ui-kit-docs dev\"",
+    "dev:client": "concurrently -n \"kit,client\" -c \"blue,green\" \"pnpm --filter=@pipecat-ai/voice-ui-kit build:watch\" \"pnpm --filter=client dev\"",
+    "build:client": "pnpm --filter=@pipecat-ai/voice-ui-kit build && pnpm --filter=client build"
+  },
+  "pnpm": {
+    "overrides": {
+      "@pipecat-ai/voice-ui-kit": "workspace:*"
+    }
+  }
+}

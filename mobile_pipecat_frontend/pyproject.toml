@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pipecat-ai-prebuilt"
+version = "1.0.0"
+description = "A simple, ready-to-use prebuilt client supporting all Pipecat transports."
+license = { text = "BSD 2-Clause License" }
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["webrtc", "pipecat", "voice", "ai"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Communications :: Conferencing",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Multimedia :: Video",
+]
+
+# List your package dependencies
+dependencies = [
+    "fastapi[all]",  # Required at runtime
+]
+
+[dependency-groups]
+dev = [
+    "setuptools~=78.1.1",
+    "build~=1.4.0",
+]
+
+[project.urls]
+homepage = "https://github.com/pipecat-ai/pipecat-prebuilt"
+source = "https://github.com/pipecat-ai/pipecat-prebuilt"
+issues = "https://github.com/pipecat-ai/pipecat-prebuilt/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pipecat_ai_prebuilt*"]
+
+[tool.setuptools.package-data]
+"pipecat_ai_prebuilt" = ["client/dist/**/*"]
+

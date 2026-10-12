@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFFFF0</color>
+    <color name="colorPrimaryDark">#263238</color>
+    <color name="colorAccent">#2E7D32</color>
+    <color name="colorTextPrimary">#000000</color>
+    <color name="colorGrey">#757575</color>
+
+    <drawable name="completedTaskBackground">#CCCCCC</drawable>
+
+    <drawable name="touchFeedback">#CFD8DC</drawable>
+
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="accent_background">#9FA1A4</color>
+    <color name="dimmed_white">#EEFFFFFF</color>
+    <color name="dimmed_black">#CC000000</color>
+
+    <color name="main_search_hint_color">#999999</color>
+    <color name="charcoal_grey">#333b3d</color>
+    <color name="very_light_pink">#f0f0f0</color>
+    <color name="white_nearly">#f8f8f8</color>
+    <color name="twilight_blue">#0c419a</color>
+    <color name="slate_grey">#666d6f</color>
+    <color name="pale_sky_blue">#dce0e2</color>
+    <color name="quick_border">#e8eaed</color>
+    <color name="navi_second_depth_background">#f4f5f9</color>
+    <color name="empty_notice">#8e919e</color>
+    <color name="main_search_background">#f0f2f5</color>
+    <color name="fav_color">#777777</color>
+    <color name="white_80">#CCFFFFFF</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="blue_900">#1150C5</color>
+    <color name="blue_800">#0471E9</color>
+    <color name="blue_700">#368DED</color>
+    <color name="blue_300">#C3DDFA</color>
+
+    <color name="grey_900">#121619</color>
+    <color name="grey_600">#565C63</color>
+    <color name="grey_400">#B9C1C9</color>
+    <color name="grey_300">#D6DBE1</color>
+    <color name="grey_200">#EBEFF5</color>
+    <color name="grey_100">#F3F6FB</color>
+    <color name="grey_bar">#E5E5E5</color>
+
+    <color name="grey_title">#222222</color>
+    <color name="grey_body">#666666</color>
+    <color name="grey_footer">#888888</color>
+
+    <color name="dialog_cancel">#EBEBEB</color>
+
+    <color name="new_text4">#1a1a1a</color>
+    <color name="new_line1">#f0f0f0</color>
+    <color name="red">#FF0000</color>
+
+    <color name="bottom_nav_gray">#EBEBEB</color>
+    <color name="dialog_background">#7F7F7F</color>
+    <color name="barcode_background">#3E3E3E</color>
+    <color name="dialog_text">#AF8A40</color>
+    <color name="timer_color">#D4291E</color>
+    <color name="info">#F6F6F6</color>
+
+</resources>

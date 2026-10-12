@@ -1,0 +1,100 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.login-box {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+}
+
+.login-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+  text-align: center;
+}
+
+.login-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 32px 0;
+  text-align: center;
+}
+
+.login-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+  color: #1a1a1a;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.login-button.google {
+  border-color: #4285f4;
+  color: #4285f4;
+}
+
+.login-button.google:hover {
+  background: #4285f4;
+  color: white;
+}
+
+.login-button.naver {
+  border-color: #03c75a;
+  color: #03c75a;
+}
+
+.login-button.naver:hover {
+  background: #03c75a;
+  color: white;
+}
+
+.login-button.kakao {
+  border-color: #fee500;
+  background: #fee500;
+  color: #3c1e1e;
+}
+
+.login-button.kakao:hover {
+  background: #fdd835;
+  border-color: #fdd835;
+}
+
+.login-icon {
+  flex-shrink: 0;
+}
+
+.loading-spinner {
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+}

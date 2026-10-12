@@ -1,0 +1,14 @@
+{
+  "folders": [
+    {"name": "backend (pipecat)", "path": "."},
+    {"name": "front (voice-ui-kit)", "path": "../voice-ui-kit"},
+    {"name": "android (mobile_pipecat_android)", "path": "../mobile_pipecat_android"},
+    {"name": "OpenMinis", "path": "../OpenMinis"}
+  ],
+  "settings": {
+    "kotlin.languageServer.enabled": false,
+    "kotlin.validation.enabled": false,
+    "java.errors.incompleteClasspath.severity": "ignore",
+    "java.configuration.updateBuildConfiguration": "interactive"
+  }
+}

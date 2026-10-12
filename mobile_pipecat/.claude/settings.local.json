@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -n -E '^\\(┌|│|└|├|═|━|─{4,}|▶|◀|▼|▲\\)' /Users/ds.ryu/project/pipecat/mobile/docs/mobile-app-invoker-pitch.md /Users/ds.ryu/project/pipecat/mobile/docs/mobile-app-invoker-protocol-spec.md)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(pnpm install *)",
+      "Bash(pnpm list *)",
+      "Bash(cd /c/project/OpenMinis && diff -r src/ios/default_mount src/android/app/src/main/assets/default_mount && echo \"IDENTICAL\")",
+      "Read(//c/project/OpenMinis/**)",
+      "Bash(cd /c/project/OpenMinis && cat src/shared/bashism/validate_detector.swift | head -60 && echo \"=== rules ===\" && head -60 src/shared/bashism/bashism_rules.json)",
+      "Read(//c/project/OpenMinis/src/android/app/src/main/java/com/openminis/app/offload/**)",
+      "Bash(cd /c/project/OpenMinis/src/android/app/src/main/java/com/openminis/app && grep -n \"registerForActivityResult\\\\|ActivityResultContracts\\\\|requestPermissions\\\\|shouldShowRequestPermissionRationale\\\\|rememberLauncherForActivityResult\" -r . | head -40)",
+      "Read(//c/project/OpenMinis/src/android/app/src/main/java/com/openminis/app/**)"
+    ]
+  }
+}

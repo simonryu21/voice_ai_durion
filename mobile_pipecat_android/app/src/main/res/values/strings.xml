@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DuriOn</string>
+    <string name="main_search_hint">목적지를 입력하세요</string>
+    <string name="quick_menu_my_loc">내위치</string>
+    <string name="search_no_result">검색결과가 없습니다.</string>
+    <string name="recent_search">최근 검색</string>
+    <string name="favorite_location">장소 즐겨찾기</string>
+    <string name="start_point">출발지: </string>
+    <string name="ok_button">확인</string>
+    <string name="cancel_button">취소</string>
+    <string name="move_button">이동</string>
+    <string name="ok_move_button">이동하기</string>
+
+    <string name="feature_permission_guide_msg">서비스 이용을 위해서는 앱이 휴대폰의 %1$s에 접근할 수 있어야 합니다.\n\n지금 접근 권한을 설정해주시겠어요?</string>
+    <string name="permission_storage">저장공간</string>
+    <string name="permission_phone">전화</string>
+    <string name="permission_contacts">주소록</string>
+    <string name="permission_camera">카메라</string>
+    <string name="permission_microphone">마이크</string>
+    <string name="permission_audio_settings">오디오 설정</string>
+    <string name="permission_calendar">캘린더</string>
+    <string name="permission_location">위치정보</string>
+    <string name="permission_device_accounts">계정</string>
+    <string name="permission_notification">알림</string>
+    <string name="permission_video">동영상</string>
+    <string name="feature_permission_guide_title">권한 설정 안내</string>
+    <string name="feature_permission_ok_label">권한설정</string>
+    <string name="feature_permission_cancel_label">아니요</string>
+    <string name="choose_the_way_to_get_video">동영상 가져올 방법을 선택하세요.</string>
+    <string name="choose_the_way_to_get_picture">사진 가져올 방법을 선택하세요.</string>
+    <string name="video_compressing">동영상 압축중..</string>
+    <string name="str_rootingcheck_msg">변경된 OS(\'탈옥\'등)의 스마트폰은 서비스를 이용할수 없습니다</string>
+
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel_id</string>
+    <string name="default_notification_channel_name" translatable="false">fcm_default_channel_name</string>
+    <string name="default_notification_topic" translatable="false">fcm_default_topic</string>
+
+    <string name="main_action_rotate">90도 회전(시계방향)</string>
+    <string name="main_action_crop">저장</string>
+
+    <string name="remote_datastore_test">Remote 테스트</string>
+    <string name="local_datastore_test">Local 테스트</string>
+
+    <string name="biometric_authentication">사용자 인증</string>
+    <string name="biometric_authentication_subtitle">사용자 인증을 위해 지문 인식을 사용합니다.</string>
+    <string name="biometric_authentication_description">사용자를 인증해주세요.</string>
+
+    <!-- NFC -->
+    <string name="nfc_info">NFC 태그를 인식해주세요.</string>
+    <string name="nfc_message">휴대폰 뒷면을\nNFC 태그에 가까이 두세요.</string>
+    <string name="nfc_error_not_supported_device">NFC를 지원하지 않는 단말입니다.</string>
+    <string name="nfc_error_duplicate_tag">NFC 태그가 중복 조회 되었습니다.</string>
+    <string name="nfc_error_no_ndef">NFC 태그가 NDEF를 준수하지 않습니다.</string>
+    <string name="nfc_error_user_cancel">NFC 태깅이 취소되었습니다.</string>
+    <string name="nfc_error_disabled">NFC가 비활성화 되어 있습니다.\n휴대폰 설정으로 이동하시겠습니까?</string>
+
+    <string name="msg_close">닫기</string>
+    <string name="str_different_key_msg">App. Key가 맞지 않습니다.</string>
+    <string name="str_different_package_name_msg">Package Name이 맞지 않습니다.</string>
+
+    <string name="tit" translatable="false">앱 사용을 위해\n접근 권한을 허용해주세요</string>
+    <string name="optional_permission" translatable="false">선택적 접근 권한</string>
+    <string name="notice_desc" translatable="false">쇼핑 혜택 및 관심브랜드 업데이트 정보, 나의 글 댓글\n알림 등 푸시 발송에 사용됩니다.</string>
+    <string name="camera" translatable="false">카메라</string>
+    <string name="camera_desc" translatable="false">이벤트 참여 및 사진 촬영 시 사용됩니다.</string>
+    <string name="finger" translatable="false">생체인증</string>
+    <string name="finger_desc" translatable="false">멤버스 고객 인증시 사용됩니다.</string>
+    <string name="storage" translatable="false">저장공간</string>
+    <string name="storage_desc" translatable="false">갤러리 앱에서 사진을 가져오기 위해 사용됩니다.</string>
+    <string name="location" translatable="false">위치</string>
+    <string name="location_desc" translatable="false">내점 시 이벤트 참여, 스마트오더를 이용하실 수 있도록\n도와줍니다.</string>
+    <string name="permission_desc_1" translatable="false">앱 이용을 위해서는 필수적 접근 권한 허용이 반드시 필요합니다.</string>
+    <string name="permission_desc_2" translatable="false">선택적 접근 권한은 해당 기능을 사용할 때 허용이 필요하며, 비허용시에도 해당 기능 외 서비스 이용이 가능합니다.</string>
+    <string name="permission_desc_3" translatable="false">기존 설치된 앱을 사용하시는 경우에는 앱을 삭제 후 재설치 해야 접근 권한 설정이 가능합니다.</string>
+
+    <string name="error_402" translatable="false">네트워크 상태를 확인해주세요</string>
+    <string name="error_402_sub" translatable="false">연결하려면 Wi-Fi 또는 \n셀룰러 데이터 네트워크에 연결해야 합니다.</string>
+    <string name="error_404" translatable="false">원하시는 페이지를 찾을 수 없습니다</string>
+    <string name="error_404_sub" translatable="false">주소 변경 혹은 삭제로 인해 진입하실 수 없습니다.</string>
+    <string name="error_500" translatable="false">일시적인 오류가 발생했습니다</string>
+    <string name="error_500_sub" translatable="false">서비스 이용에 불편을 드려 죄송합니다.\n잠시 후 다시 이용해주세요.</string>
+    <string name="need_to_enroll_biometric" translatable="false">생체인증이 등록되어 있지 않습니다. 등록 화면으로 이동하시겠습니까?</string>
+
+    <string name="retry">다시 시도</string>
+    <string name="previous">이전 화면</string>
+    <string name="home">홈으로 가기</string>
+    <string name="app_exit">앱 종료</string>
+    <string name="refresh">새로고침</string>
+    <string name="confirm">완료</string>
+
+    <!-- Pipecat Voice UI -->
+    <string name="pipecat_state_ready">준비됨</string>
+    <string name="pipecat_state_listening">듣는 중</string>
+    <string name="pipecat_state_thinking">생각 중</string>
+    <string name="pipecat_state_speaking">말하는 중</string>
+    <string name="pipecat_history_label">히스토리</string>
+    <string name="pipecat_ask_placeholder">무엇이든 물어보세요</string>
+    <string name="pipecat_ask_listening_label">듣고 있어요</string>
+    <string name="pipecat_ask_attach_label">첨부</string>
+    <string name="pipecat_ask_mic_label">듣기 시작</string>
+    <string name="pipecat_ask_stop_label">듣기 중지</string>
+    <string name="pipecat_ask_wave_label">음성 모드</string>
+    <string name="pipecat_overlay_listening_label">듣는 중</string>
+    <string name="pipecat_overlay_stop_label">중지</string>
+    <string name="pipecat_preview_close">닫기</string>
+    <string name="pipecat_idle_greeting_morning">좋은 아침이에요,</string>
+    <string name="pipecat_idle_greeting_afternoon">좋은 오후예요,</string>
+    <string name="pipecat_idle_greeting_evening">좋은 저녁이에요,</string>
+    <string name="pipecat_idle_headline_suffix">오늘 무엇을 도와드릴까요?</string>
+    <string name="pipecat_idle_highlight">오늘</string>
+    <string name="pipecat_idle_suggestions_label">추천</string>
+    <string name="pipecat_idle_see_all">더 보기 →</string>
+    <string name="pipecat_idle_session_prefix">세션</string>
+    <string name="pipecat_conversation_reply_placeholder">답장하거나 추가 질문하기</string>
+    <string name="pipecat_conversation_typing_label">입력 중</string>
+    <string name="pipecat_listening_system_label">마이크 활성 · whisper-large-v3</string>
+
+</resources>

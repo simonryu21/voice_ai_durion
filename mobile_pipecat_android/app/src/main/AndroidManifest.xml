@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- 소켓 사용 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- 주소록 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+
+    <!-- 위치 정보 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- 전화 번호 -->
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+
+    <!-- Shake 등 모션 감지 -->
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
+    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
+
+    <!-- 사진 및 동영상 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    
+    <!-- 오디오 녹음 및 재생 (TTS, STT) -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+    <!-- NFC -->
+    <uses-permission android:name="android.permission.NFC" />
+
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
+
+    <!-- External Storage 사용 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"/>
+    <!-- Android 13 이상 미디어 권한 -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
+    <!-- 진동 사용 -->
+    <uses-permission android:name = "android.permission.VIBRATE"/>
+
+    <!-- Foreground Service 권한 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Pipecat 음성 오버레이 (다른 앱 위에 표시) -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_AD_ID" />
+
+    <!-- 설치 앱 전체 목록 조회 (API 30+, Play Store 제한 권한) -->
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+
+    <!-- 앱 사용 통계 조회 (특별 권한, 설정 화면 유도 필요) -->
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+    <queries>
+        <package android:name="com.kakao.talk" />
+    </queries>
+
+    <application
+        android:name=".CodeEngineApplication"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        android:theme="@style/Theme.CodeEngine"
+        android:hardwareAccelerated="true">
+
+        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
+             See README(https://goo.gl/l4GJaQ) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher" />
+        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+
+        <activity
+            android:name=".activity.SplashActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.OverlapSystemBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+        </activity>
+
+        <activity
+            android:name=".activity.LoginActivity"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".activity.PlaceSearchActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true"
+            android:theme="@style/AppTheme.OverlapSystemBar">
+        </activity>
+
+        <activity
+            android:name=".activity.UserListActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.OverlapSystemBar">
+        </activity>
+
+        <activity
+            android:name=".activity.PermissionNoticeActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.OverlapSystemBar">
+        </activity>
+
+        <activity
+            android:name=".activity.WebViewTestActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
+
+        <activity
+            android:name=".activity.BarcodeViewActivity"
+            android:exported="true"
+            android:theme="@style/CustomPopupDialog">
+        </activity>
+
+        <activity
+            android:name=".activity.ImageEditActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.OverlapSystemBar">
+        </activity>
+
+        <activity
+            android:name=".activity.BarcodeDetectActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.OverlapSystemBar">
+        </activity>
+
+        <activity
+            android:name=".activity.ErrorShowActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.OverlapSystemBar">
+        </activity>
+
+        <activity
+            android:name=".activity.GeminiLiveTranslationActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.OverlapSystemBar">
+        </activity>
+
+        <activity
+            android:name=".activity.PipecatPreviewActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.OverlapSystemBar">
+            <!-- adb shell am start -a android.intent.action.VIEW -d "pipecat://preview" -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="pipecat" android:host="preview" />
+            </intent-filter>
+        </activity>
+
+        <!-- Pipecat 시스템 Bubble의 확장 화면 (embedded/resizeable) -->
+        <activity
+            android:name=".activity.PipecatBubbleActivity"
+            android:exported="false"
+            android:allowEmbedded="true"
+            android:documentLaunchMode="always"
+            android:resizeableActivity="true"
+            android:theme="@style/AppTheme.OverlapSystemBar" />
+
+        <activity
+            android:name=".activity.WebViewActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.OverlapSystemBar"
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="smallestScreenSize|screenLayout|orientation|screenSize|keyboardHidden">
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="sscp.page.link"
+                    android:scheme="https"/>
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".activity.PIPWebViewActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.OverlapSystemBar"
+            android:supportsPictureInPicture="true"
+            android:launchMode="singleTask"
+            android:configChanges="smallestScreenSize|screenLayout|orientation|screenSize|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:autoRemoveFromRecents="true"
+            >
+        </activity>
+
+        <activity
+            android:name=".activity.OutboundWebViewActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.OverlapSystemBar"
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="smallestScreenSize|screenLayout|orientation|screenSize|keyboardHidden"
+            >
+        </activity>
+
+        <activity
+            android:name=".activity.HandoffWebViewActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.OverlapSystemBar"
+            android:screenOrientation="portrait" />
+
+        <!-- 번역 Agent 전용 WebView 화면 (?mode=translation 으로 봇 클라이언트 로드) -->
+        <activity
+            android:name=".activity.TranslationWebViewActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.OverlapSystemBar"
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="smallestScreenSize|screenLayout|orientation|screenSize|keyboardHidden" />
+
+        <activity android:name=".contacts.ContactsActivity"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".activity.NfcTagActivity"
+            android:exported="false" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <service
+            android:name=".ui.push.FCMPushService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".ui.service.ForegroundAppService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="앱 실행 유지" />
+        </service>
+
+        <service
+            android:name=".translation.overlay.PipecatOverlayService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Pipecat 음성 오버레이" />
+        </service>
+
+        <receiver
+            android:name=".activity.BaseWebViewActivity$SMSReceiver"
+            android:permission="com.google.android.gms.auth.api.phone.permission.SEND"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVED"/>
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>

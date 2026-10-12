@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pipecat UI</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/src/style.css" />
+  <!--
+    사내망(LG CNS 프록시)이 c.daily.co를 403으로 완전 차단한다.
+    @pipecat-ai/small-webrtc-transport는 디바이스 관리에 daily-js를 쓰는데,
+    daily-js가 fetch()로 call-machine 번들을 c.daily.co에서 받으려다 막혀
+    transport 초기화가 실패한다(→ 연결 불가).
+    아래 인터셉터로 그 fetch를 동일 출처의 로컬 사본으로 우회한다.
+    번들 파일(call-machine-object-bundle.js)은 public/ 에 self-host 한다.
+  -->
+  <script>
+    (function () {
+      var origFetch = window.fetch.bind(window);
+      window.fetch = function (input, init) {
+        var url = typeof input === "string" ? input : (input && input.url) || "";
+        if (
+          url.indexOf("c.daily.co") !== -1 &&
+          url.indexOf("call-machine-object-bundle.js") !== -1
+        ) {
+          // 동일 출처(vite public)에서 서빙되는 로컬 번들로 대체 → CORS/프록시 우회
+          return origFetch("/call-machine-object-bundle.js", init);
+        }
+        return origFetch(input, init);
+      };
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/index.tsx"></script>
+  <script src="/geolocation.js"></script>
+</body>
+
+</html>

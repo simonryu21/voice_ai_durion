@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <FrameLayout
+      android:layout_width="match_parent"
+      android:focusable="true"
+      android:layout_height="match_parent"
+      >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        >
+      <com.canhub.cropper.CropImageView
+          android:id="@+id/cropImageView"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          app:cropShowLabel="true"
+          app:cropBorderCornerColor="@color/cardview_shadow_start_color"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/imgEditToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:titleTextColor="@android:color/white"
+        android:background="@color/white">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="48dp"
+          android:orientation="horizontal"
+          android:layout_marginTop="0dp"
+          android:layout_marginStart="18dp"
+          android:layout_marginEnd="18dp"
+          android:layout_marginBottom="0dp"
+          android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/tvCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel_button"
+            android:textColor="@color/grey_title"
+            android:textSize="14dp"
+            android:gravity="center"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/ivRotate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_imgrotate_32"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"/>
+        <ImageView
+            android:id="@+id/ivReverse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_imgreverse_32"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"/>
+        <TextView
+            android:id="@+id/tvConfrim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/confirm"
+            android:textColor="@color/grey_title"
+            android:textSize="14dp"
+            android:gravity="center"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"/>
+      </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+  </FrameLayout>
+</layout>

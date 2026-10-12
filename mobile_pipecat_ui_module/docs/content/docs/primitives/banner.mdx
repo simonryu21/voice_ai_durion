@@ -1,0 +1,80 @@
+---
+title: Banner
+description: Inline notification banner with actions.
+component: Banner
+---
+
+<LiveComponent language="tsx">
+{`
+  import { Banner, BannerIcon, BannerTitle, BannerClose } from "@pipecat-ai/voice-ui-kit";
+  import { CircleAlert } from "lucide-react";
+
+  <Banner className="animate-in fade-in duration-300" variant="destructive">
+    <BannerIcon icon={CircleAlert} />
+    <BannerTitle>Unable to connect. Please check web console for errors.</BannerTitle>
+    <BannerClose variant="destructive" />
+  </Banner>
+`}
+</LiveComponent>
+
+<TypeTable
+  className="text-sm"
+  type={{
+    variant: {
+      description: "The banner color scheme",
+      type: '"primary" | "destructive"',
+      required: false,
+      default: '"primary"',
+    },
+    inset: {
+      description: "Rounded inset styling",
+      type: "boolean",
+      required: false,
+      default: "false",
+    },
+    visible: {
+      description: "Controlled visibility",
+      type: "boolean",
+      required: false,
+      default: "undefined",
+    },
+    defaultVisible: {
+      description: "Uncontrolled initial visibility",
+      type: "boolean",
+      required: false,
+      default: "true",
+    },
+    onClose: {
+      description: "Callback when closed",
+      type: "() => void",
+      required: false,
+      default: "undefined",
+    },
+  }}
+/>
+
+---
+
+## Usage
+
+### Variants
+
+<LiveComponent language="tsx">
+{`
+  import { Banner, BannerIcon, BannerTitle, BannerClose, CircleAlertIcon } from "@pipecat-ai/voice-ui-kit";
+
+  <div className="flex flex-row gap-3 w-full">
+    <Banner className="flex-1">
+      <BannerTitle>Primary</BannerTitle>
+      <BannerClose />
+    </Banner>
+    <Banner variant="destructive" className="flex-1">
+      <BannerIcon icon={CircleAlertIcon} />
+      <BannerTitle>Destructive</BannerTitle>
+      <BannerClose variant="destructive" />
+    </Banner>
+  </div>
+`}
+</LiveComponent>
+
+

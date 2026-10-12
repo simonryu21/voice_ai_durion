@@ -1,0 +1,18 @@
+#!/bin/bash
+# Wrapper script to run uv without VIRTUAL_ENV conflicts
+# This prevents the warning about VIRTUAL_ENV not matching project environment path
+
+# Unset VIRTUAL_ENV if it's set to avoid path matching warnings
+if [ -n "$VIRTUAL_ENV" ]; then
+    unset VIRTUAL_ENV
+fi
+
+# Find and run the system uv command
+# Check if uv is in PATH
+if command -v uv >/dev/null 2>&1; then
+    exec uv "$@"
+else
+    echo "Error: uv command not found in PATH" >&2
+    exit 1
+fi
+
