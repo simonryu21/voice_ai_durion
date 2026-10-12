@@ -1,10 +1,10 @@
-# Durion — Voice AI
+# DuriOn — Voice AI
 
 [English](README.md) | 한국어
 
-Durion은 음성으로 대화하고, 사용자의 맥락을 기억하며, 모바일 기능과 앱 실행을 연결하는 AI 어시스턴트입니다. 이 저장소는 서버, 메모리, 웹 UI, UI 컴포넌트, Android 앱 등 5개 프로젝트를 함께 관리합니다.
+DuriOn은 음성으로 대화하고, 사용자의 맥락을 기억하며, 모바일 기능과 앱 실행을 연결하는 AI 어시스턴트입니다. 이 저장소는 서버, 메모리, 웹 UI, UI 컴포넌트, Android 앱 등 5개 프로젝트를 함께 관리합니다.
 
-## Durion 소개
+## DuriOn 소개
 
 - [구조와 주요 기능](01-structure-features.html)
 - [사용 시나리오](02-use-cases.html)

@@ -1,0 +1,28 @@
+category: video
+display_name: 유튜브 검색
+apps:
+  - app_id: youtube
+    display_name: YouTube
+    package_name: com.google.android.youtube
+    popularity_rank: 1
+    use_when: |
+      유튜브 동영상 또는 음악 검색 요청. 다른 음악 앱을 명시하지 않은
+      "BTS 노래 틀어줘", "Play BTS music" 같은 요청의 기본 앱.
+      아티스트나 곡명만 query로 추출하고 명령 표현은 제외한다.
+      두 예시 모두 query="BTS". 검색 결과를 열며 자동 재생은 하지 않는다.
+    examples:
+      - "BTS 노래 틀어줘"
+      - "Play BTS music"
+      - "유튜브에서 아이유 검색해줘"
+    parameters:
+      - name: query
+        type: string
+        required: true
+        description: "검색할 아티스트, 곡명 또는 영상 키워드. BTS 노래 틀어줘 / Play BTS music → BTS"
+    execution:
+      android:
+        - type: intent
+          priority: 1
+          action: android.intent.action.SEARCH
+          extras:
+            query: "{query}"

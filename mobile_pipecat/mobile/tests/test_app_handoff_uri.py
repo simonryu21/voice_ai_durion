@@ -2,6 +2,8 @@
 
 import pytest
 
+from app_catalog.candidate_builder import CandidateBuilder
+from app_catalog.loader import CatalogLoader
 from app_catalog.schema import CatalogApp, CatalogParam, ExecutionPath
 from app_handoff.uri import render_execution_paths
 
@@ -109,3 +111,26 @@ def test_numeric_parameter_is_stringified_and_encoded():
     )
     paths = render_execution_paths(app, {"lat": 37.5}, platform="android")
     assert paths[0].uri == "https://x?lat=37.5"
+
+
+@pytest.mark.parametrize("query", ["BTS", "방탄소년단 & Coldplay / 라이브", "BTS;S.query=other"])
+def test_youtube_search_keeps_query_as_literal_extra(query):
+    catalog = CatalogLoader().load()
+    app = catalog["video"].apps[0]
+    paths = render_execution_paths(app, {"query": query})
+    assert app.package_name == "com.google.android.youtube"
+    assert paths[0].action == "android.intent.action.SEARCH"
+    assert paths[0].uri is None
+    assert paths[0].extras == {"query": query}
+
+
+def test_youtube_is_available_without_inventory():
+    candidates = CandidateBuilder(CatalogLoader().load()).build(None, "android", [])
+    assert "youtube" in {app.app_id for app in candidates.all_apps()}
+
+
+@pytest.mark.parametrize("parameters", [{}, {"query": ""}, {"query": "   "}])
+def test_youtube_requires_search_query(parameters):
+    app = CatalogLoader().load()["video"].apps[0]
+    with pytest.raises(ValueError, match="missing required parameters"):
+        render_execution_paths(app, parameters)

@@ -69,6 +69,7 @@
         tools:ignore="ProtectedPermissions" />
 
     <queries>
+        <package android:name="com.google.android.youtube" />
         <package android:name="com.kakao.talk" />
     </queries>
 

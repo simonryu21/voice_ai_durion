@@ -63,7 +63,7 @@ class AppHandoffPlugin(
 
             val attempt = JSONObject().put(KEY_TYPE, type).put(KEY_URI, uri)
 
-            val intent = buildIntent(type, uri, action)
+            val intent = buildIntent(type, uri, action, path.optJSONObject("extras"))
             if (intent == null) {
                 Timber.w("AppHandoff.launch attempt[$i] build_failed type=$type uri=$uri")
                 attempts.add(attempt.put("error", "build_failed"))
@@ -72,7 +72,7 @@ class AppHandoffPlugin(
 
             // applink: bind to the target package so the system opens the app directly
             // instead of falling through to a browser/chooser.
-            if (type == TYPE_APPLINK && packageName != null) {
+            if ((type == TYPE_APPLINK || type == TYPE_INTENT) && packageName != null) {
                 intent.setPackage(packageName)
                 Timber.i("AppHandoff.launch attempt[$i] setPackage=$packageName (applink)")
             }
@@ -105,13 +105,25 @@ class AppHandoffPlugin(
         }
     }
 
-    private fun buildIntent(type: String, uri: String, action: String): Intent? {
-        if (uri.isEmpty()) return null
+    private fun buildIntent(type: String, uri: String, action: String, extras: JSONObject?): Intent? {
+        if (uri.isEmpty() && type != TYPE_INTENT) return null
         return try {
-            when (type) {
-                TYPE_INTENT -> Intent.parseUri(uri, Intent.URI_INTENT_SCHEME)
+            val intent = when (type) {
+                TYPE_INTENT -> if (uri.startsWith("intent:")) {
+                    Intent.parseUri(uri, Intent.URI_INTENT_SCHEME)
+                } else {
+                    Intent(action).apply {
+                        if (uri.isNotEmpty()) data = Uri.parse(uri)
+                    }
+                }
                 else -> Intent(action, Uri.parse(uri))
             }
+            if (type == TYPE_INTENT && extras != null) {
+                for (key in extras.keys()) {
+                    intent.putExtra(key, extras.getString(key))
+                }
+            }
+            intent
         } catch (e: Exception) {
             Timber.w(e, "AppHandoff: failed to build intent type=$type uri=$uri")
             null

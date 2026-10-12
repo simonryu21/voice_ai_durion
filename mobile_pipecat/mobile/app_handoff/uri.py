@@ -64,7 +64,12 @@ def _validate_required_parameters(app: CatalogApp, parameters: dict[str, Any]) -
     missing = [
         p.name
         for p in app.parameters
-        if p.required and (p.name not in parameters or parameters[p.name] in (None, ""))
+        if p.required
+        and (
+            p.name not in parameters
+            or parameters[p.name] is None
+            or (isinstance(parameters[p.name], str) and not parameters[p.name].strip())
+        )
     ]
     if missing:
         raise ValueError(f"app `{app.app_id}` missing required parameters: {missing}")
@@ -105,7 +110,14 @@ def _render_one(path: ExecutionPath, parameters: dict[str, Any]) -> RenderedExec
             priority=path.priority,
             uri=uri,
             action=path.action,
-            extras=dict(path.extras) if path.extras else None,
+            extras={
+                key: _PLACEHOLDER_RE.sub(
+                    lambda match: str(parameters.get(match.group(1)) or ""), value
+                )
+                for key, value in path.extras.items()
+            }
+            if path.extras
+            else None,
         )
     # applink / deeplink / scheme / universal_link all use `template`.
     template = path.template or ""
