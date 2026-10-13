@@ -6,10 +6,10 @@ DuriOn is an AI assistant that supports voice conversations, remembers user cont
 
 ## Introducing DuriOn
 
-- [Architecture and features](https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/01-structure-features.html)
-- [Use cases](https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/02-use-cases.html)
+- [Architecture and features](https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/01-structure-features-en.html)
+- [Use cases](https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/02-use-cases-en.html)
 
-These links open the rendered introduction pages through GitHub HTML Preview; no download is needed. The pages are written in Korean. To inspect or download the source, use [Architecture HTML source](01-structure-features.html) or [Use cases HTML source](02-use-cases.html). The originals are also available in `mobile_pipecat/docs/durion-promo/`.
+These links open the rendered introduction pages through GitHub HTML Preview; no download is needed. These are the English pages. [한국어 소개](https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/01-structure-features.html) is also available. To inspect or download the source, use [Architecture HTML source](01-structure-features-en.html) or [Use cases HTML source](02-use-cases-en.html). The originals are also available in `mobile_pipecat/docs/durion-promo/`.
 
 ## Projects
 
@@ -151,3 +151,4 @@ API keys, `.env` files, service account JSON, Firebase configuration, private ke
 Keep the LICENSE files and copyright notices included in each project. Check the individual directories for the licenses of Pipecat, Mem0, Voice UI Kit, and other upstream projects and external libraries.
 
 This guide reflects the current source and configuration files. Full execution with real API credentials, databases, and Android/Firebase environments still requires separate validation.
+

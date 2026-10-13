@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title> DuriOn · Use Cases </title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E0B0A; --surface:#1A1413; --surface2:#241B19;
+    --border:rgba(255,255,255,0.09); --border2:rgba(255,255,255,0.06);
+    --text:#F7F1ED; --dim:rgba(247,241,237,0.62); --faint:rgba(247,241,237,0.34);
+    --accent:#C73E1D; --accent2:#E55934; --accent3:#D94A2B;
+    --green:#4ADE80; --blue:#4C7DE5; --gold:#C9A227; --teal:#2E7D6B;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(1100px 640px at 82% -8%, rgba(199,62,29,0.20), transparent 58%),
+      radial-gradient(800px 560px at -8% 30%, rgba(76,125,229,0.08), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Geist',ui-sans-serif,system-ui,-apple-system,sans-serif;
+    letter-spacing:-0.01em;-webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'Geist Mono',ui-monospace,monospace}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+
+  /* nav */
+  .topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    background:rgba(14,11,10,0.72);border-bottom:1px solid var(--border2)}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+  .brand{display:flex;align-items:center;gap:11px}
+  .mark{width:26px;height:26px;flex-shrink:0}
+  .brand b{font-size:19px;font-weight:700;letter-spacing:-0.02em}
+  .brand small{font-size:11px;color:var(--faint);font-weight:500}
+  .navlinks{display:flex;gap:8px;flex-wrap:wrap}
+  .navlinks a{font-size:12.5px;text-decoration:none;color:var(--dim);padding:7px 13px;border-radius:9px;border:1px solid transparent;transition:.15s}
+  .navlinks a:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+  .navlinks a.on{color:#fff;background:var(--accent);border-color:var(--accent)}
+
+  /* hero */
+  .hero{padding:64px 0 20px}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent2);padding:6px 12px;border-radius:999px;background:rgba(199,62,29,0.12);border:1px solid rgba(199,62,29,0.35)}
+  .hero h1{font-size:clamp(34px,5.4vw,60px);line-height:1.05;font-weight:800;letter-spacing:-0.035em;margin:20px 0 0;max-width:none;white-space:nowrap}
+  .hero h1 .hl{background:linear-gradient(180deg,transparent 58%,rgba(199,62,29,0.45) 58%)}
+  .hero p.lede{margin:20px 0 0;font-size:clamp(15px,2vw,18px);line-height:1.6;color:var(--dim);max-width:60ch}
+
+  .sec-label{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+  section{padding:40px 0}
+  .sec-title{font-size:clamp(24px,3.2vw,34px);font-weight:700;letter-spacing:-0.03em;margin:10px 0 0;line-height:1.12}
+  .sec-sub{color:var(--dim);font-size:15.5px;margin:12px 0 0;max-width:64ch;line-height:1.6}
+
+  /* ── HERO scenario card ── */
+  .hero-scene{
+    margin-top:30px;border-radius:24px;border:1px solid rgba(199,62,29,0.4);
+    background:linear-gradient(160deg,rgba(199,62,29,0.16),var(--surface) 55%);
+    overflow:hidden;
+  }
+  .hs-top{padding:26px 30px 22px;border-bottom:1px solid var(--border);display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap}
+  .hs-badge{font-family:'Geist Mono',monospace;font-size:11px;color:#fff;background:var(--accent);padding:5px 11px;border-radius:8px;white-space:nowrap}
+  .hs-situ{flex:1;min-width:260px}
+  .hs-situ .lbl{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+  .hs-situ p{margin:8px 0 0;font-size:15px;line-height:1.55;color:var(--dim)}
+  .hs-utter{
+    margin:0;font-size:clamp(18px,2.4vw,26px);font-weight:600;line-height:1.4;letter-spacing:-0.02em;
+    padding:16px 20px;border-radius:16px;background:rgba(14,11,10,0.5);border:1px solid var(--border);
+    max-width:520px;
+  }
+  .hs-utter .q{color:var(--accent2)}
+  .hs-flow{padding:26px 30px 30px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .step{border-radius:16px;background:rgba(14,11,10,0.42);border:1px solid var(--border);padding:18px 18px;position:relative}
+  .step .n{position:absolute;top:-11px;left:16px;width:24px;height:24px;border-radius:50%;background:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:'Geist Mono',monospace}
+  .step .app{display:flex;align-items:center;gap:9px;margin-top:6px}
+  .step .app .a-ico{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff}
+  .step .app .a-name{font-weight:600;font-size:15px}
+  .step .state{margin-top:12px;font-size:13px;color:var(--dim);line-height:1.5}
+  .step .state b{color:var(--text)}
+  .step .left{margin-top:12px;display:inline-block;font-family:'Geist Mono',monospace;font-size:10.5px;
+    padding:4px 9px;border-radius:7px;background:rgba(199,62,29,0.18);color:#ffcfc2}
+  .hs-result{padding:0 30px 26px}
+  .hs-result .box{border-radius:14px;background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.3);
+    padding:15px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .hs-result .tick{width:26px;height:26px;border-radius:50%;background:var(--green);color:#062611;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+  .hs-result .box p{margin:0;font-size:14px;color:#cdeed7}
+  .hs-result .box p b{color:#fff}
+
+  /* ── killer grid ── */
+  .kgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+  .kcard{border-radius:20px;border:1px solid var(--border);background:var(--surface);padding:22px 22px;display:flex;flex-direction:column;gap:14px;transition:.18s}
+  .kcard:hover{transform:translateY(-3px);border-color:rgba(199,62,29,0.4)}
+  .khead{display:flex;align-items:center;gap:12px}
+  .khead .kico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0}
+  .khead .kt{font-size:17px;font-weight:600}
+  .khead .ks{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+  .utter{font-size:14.5px;font-weight:600;line-height:1.45;padding:12px 14px;border-radius:12px;
+    background:rgba(14,11,10,0.5);border:1px solid var(--border)}
+  .utter .q{color:var(--accent2)}
+  .arrow{display:flex;align-items:center;gap:8px;color:var(--faint);font-family:'Geist Mono',monospace;font-size:11px}
+  .arrow .line{flex:1;height:1px;background:var(--border)}
+  .outcome{font-size:13.5px;line-height:1.55;color:var(--dim)}
+  .outcome b{color:var(--text)}
+  .tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:2px}
+  .tg{font-size:10.5px;font-family:'Geist Mono',monospace;padding:4px 9px;border-radius:999px;background:var(--surface2);border:1px solid var(--border2);color:var(--dim)}
+
+  /* PLAN timeline scenario (full width) */
+  .plan{margin-top:16px;grid-column:1 / -1;border-radius:20px;border:1px solid rgba(201,162,39,0.35);
+    background:linear-gradient(160deg,rgba(201,162,39,0.10),var(--surface) 55%);padding:26px 26px}
+  .plan .phead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .plan .kico{width:44px;height:44px;border-radius:12px;background:rgba(201,162,39,0.16);border:1px solid rgba(201,162,39,0.35);display:flex;align-items:center;justify-content:center;font-size:21px}
+  .plan .utter{margin-top:16px;max-width:560px}
+  .plan .utter .q{color:var(--gold)}
+  .timeline{margin-top:22px;display:flex;flex-direction:column;gap:0;position:relative;padding-left:8px}
+  .tl{display:grid;grid-template-columns:64px 1fr;gap:16px;padding:12px 0;position:relative}
+  .tl:not(:last-child){border-bottom:1px solid var(--border2)}
+  .tl .time{font-family:'Geist Mono',monospace;font-size:13px;font-weight:600;color:var(--gold);padding-top:2px}
+  .tl .body{display:flex;flex-direction:column;gap:4px}
+  .tl .ti{font-size:14.5px;font-weight:600}
+  .tl .src{font-family:'Geist Mono',monospace;font-size:11px;color:var(--faint)}
+  .tl .src.mail{color:var(--blue)}
+  .tl .src.cal{color:var(--teal)}
+  .tl .src.act{color:var(--accent2)}
+  .plan .say{margin-top:20px;border-radius:14px;background:rgba(14,11,10,0.5);border:1px solid var(--border);padding:14px 18px;font-size:14px;color:var(--dim);line-height:1.6}
+  .plan .say b{color:var(--text)}
+
+  /* comparison strip */
+  .compare{margin-top:34px;border-radius:20px;border:1px solid var(--border);overflow:hidden}
+  .compare .row{display:grid;grid-template-columns:1.4fr 1fr 1fr;border-bottom:1px solid var(--border2)}
+  .compare .row:last-child{border-bottom:none}
+  .compare .row > div{padding:14px 18px;font-size:13.5px}
+  .compare .row.head > div{background:var(--surface2);font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+  .compare .row.head > div.us{color:var(--accent2)}
+  .compare .c-item{font-weight:500}
+  .compare .no{color:var(--faint)}
+  .compare .yes{color:#fff}
+  .compare .us{background:rgba(199,62,29,0.06)}
+
+  /* ── 10 scenarios list ── */
+  .tenlist{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:30px}
+  .tenrow{display:grid;grid-template-columns:34px 1fr;gap:14px;align-items:start;
+    border-radius:14px;border:1px solid var(--border);background:var(--surface);padding:16px 16px;transition:.16s}
+  .tenrow:hover{border-color:rgba(199,62,29,0.4);transform:translateY(-2px)}
+  .tenrow .no{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+    font-family:'Geist Mono',monospace;font-size:14px;font-weight:600;color:#fff;background:var(--accent)}
+  .tenrow .tq{font-size:14.5px;font-weight:600;line-height:1.4}
+  .tenrow .tq .q{color:var(--accent2)}
+  .tenrow .td{margin-top:7px;font-size:12.5px;color:var(--dim);line-height:1.5}
+  .tenrow .td b{color:var(--text)}
+  .tenrow .tt{margin-top:9px;display:inline-block;font-family:'Geist Mono',monospace;font-size:9.5px;letter-spacing:.06em;
+    text-transform:uppercase;padding:3px 8px;border-radius:6px;background:var(--surface2);border:1px solid var(--border2);color:var(--dim)}
+  .tenpick{margin-top:22px;border-radius:16px;border:1px solid rgba(199,62,29,0.35);
+    background:linear-gradient(160deg,rgba(199,62,29,0.1),var(--surface) 60%);padding:18px 22px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+  .tenpick .star{font-size:22px}
+  .tenpick p{margin:0;font-size:13.5px;color:var(--dim);line-height:1.55}
+  .tenpick p b{color:var(--text)}
+
+  footer{padding:36px 0 60px;border-top:1px solid var(--border2);margin-top:26px}
+  .foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  .foot .l{color:var(--faint);font-size:12px}
+  .backbtn{display:inline-flex;align-items:center;gap:9px;text-decoration:none;background:var(--surface);border:1px solid var(--border);
+    color:var(--text);padding:12px 20px;border-radius:12px;font-weight:600;font-size:14px}
+  .backbtn:hover{border-color:var(--accent)}
+
+  @media(max-width:960px){
+    .hs-flow{grid-template-columns:1fr}
+    .kgrid{grid-template-columns:1fr}
+    .compare .row{grid-template-columns:1fr}
+    .compare .row.head{display:none}
+    .tl{grid-template-columns:56px 1fr}
+  }
+  @media(max-width:520px){
+    .hero h1{white-space:normal}
+  }
+
+  .language-switch{white-space:nowrap}
+  @media(max-width:600px){.topbar .wrap{height:auto;min-height:62px;gap:10px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="topbar"><div class="wrap">
+  <div class="brand">
+    <svg class="mark" viewBox="0 0 22 22"><rect width="22" height="22" rx="5" fill="#C73E1D"/><rect x="5" y="5" width="4" height="12" fill="#fff"/><rect x="13" y="5" width="4" height="6" fill="#fff"/></svg>
+    <div><b>DuriOn</b> &nbsp;<small class="mono">App Concierge Voice AI</small></div>
+  </div>
+  <div class="navlinks">
+    <a href="https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/01-structure-features-en.html"> Architecture &amp; Features </a>
+    <a class="on" href="https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/02-use-cases-en.html"> Use Cases </a><a class="language-switch" href="https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/02-use-cases.html">한국어</a>
+  </div>
+</div></div>
+
+<!-- HERO -->
+<div class="wrap hero">
+  <span class="kicker">◉ Main Use Cases</span>
+  <h1> Finish speaking. <span class="hl"> Your next action is ready </span> to go. </h1>
+  <p class="lede"> DuriOn is designed for moments when your hands and eyes are busy. These scenarios show how voice requests can prepare the next step inside an app. </p>
+</div>
+
+<!-- HERO SCENARIO -->
+<section class="wrap">
+  <div class="sec-label">Hero Scenario</div>
+  <h2 class="sec-title"> On the road · Three app handoffs in one session </h2>
+
+  <div class="hero-scene">
+    <div class="hs-top">
+      <span class="hs-badge"> 🚗 On the road </span>
+      <div class="hs-situ">
+        <span class="lbl"> Situation </span>
+        <p> A client changes the meeting location while you are traveling. You have three tasks to prepare without working through each app manually. </p>
+      </div>
+      <p class="hs-utter"> “Change my destination to the client’s headquarters, tell <span class="q"> Manager Kim </span> on KakaoTalk that I’ll be 10 minutes late, and play <span class="q"> the latest BTS track </span> for me.” </p>
+    </div>
+
+    <div class="hs-flow">
+      <div class="step">
+        <div class="n">1</div>
+        <div class="app"><div class="a-ico" style="background:#1A73E8">T</div><div class="a-name"> TMap </div></div>
+        <div class="state"><b> Route guidance </b> opens with the client’s headquarters as the destination. The scenario continues beyond the app’s home screen. </div>
+        <span class="left"> Remaining actions · None in this scenario </span>
+      </div>
+      <div class="step">
+        <div class="n">2</div>
+        <div class="app"><div class="a-ico" style="background:#FEE500;color:#000">K</div><div class="a-name"> KakaoTalk </div></div>
+        <div class="state"> Manager Kim’s chat opens with <b> “I expect to be about 10 minutes late” prepared </b> for review. The user confirms Send when safely stopped. </div>
+        <span class="left"> Remaining action · Send </span>
+      </div>
+      <div class="step">
+        <div class="n">3</div>
+        <div class="app"><div class="a-ico" style="background:#1DB954">S</div><div class="a-name">Spotify</div></div>
+        <div class="state"> the latest BTS track <b> Playback starts automatically </b> without another request to choose the music. </div>
+        <span class="left"> Remaining actions · None in this scenario </span>
+      </div>
+    </div>
+
+    <div class="hs-result"><div class="box">
+      <div class="tick">✓</div>
+      <p><b> Three tasks prepared in one voice session. </b> Three apps, one continuous session. Sensitive actions such as sending remain under user control. </p>
+    </div></div>
+  </div>
+</section>
+
+<!-- KILLER SCENARIOS -->
+<section class="wrap">
+  <div class="sec-label">Killer Scenarios</div>
+  <h2 class="sec-title"> Six moments with the next step prepared </h2>
+  <p class="sec-sub"> Each scenario prepares <b style="color:var(--text)"> a specific state inside the app </b> so the user can complete the final action. </p>
+
+  <div class="kgrid">
+
+    <!-- 메신저 -->
+    <div class="kcard">
+      <div class="khead">
+        <div class="kico" style="background:rgba(254,229,0,0.14);border:1px solid rgba(254,229,0,0.3)">💬</div>
+        <div><div class="ks">Messaging · Deeplink</div><div class="kt"> Messaging — Prepare the message before sending </div></div>
+      </div>
+      <div class="utter"> “Tell Mom on KakaoTalk that I’ll be <span class="q"> 10 minutes late </span> today.” </div>
+      <div class="arrow"><span class="line"></span>→<span class="line"></span></div>
+      <div class="outcome"> Mom’s chat opens with <b> “I’ll be 10 minutes late” prepared </b> for review. A basic launcher would still require finding Mom and typing; DuriOn leaves <b> the final Send action </b> to the user. </div>
+      <div class="tags"><span class="tg"> Recipient + message </span><span class="tg"> User confirms Send </span></div>
+    </div>
+
+    <!-- 결제/송금 Vision -->
+    <div class="kcard">
+      <div class="khead">
+        <div class="kico" style="background:rgba(76,125,229,0.14);border:1px solid rgba(76,125,229,0.3)">💳</div>
+        <div><div class="ks">Payment · Vision Track</div><div class="kt"> Payments — Continue after the external flow </div></div>
+      </div>
+      <div class="utter"> “Send Sarah <span class="q">$50</span> through PayPal.” </div>
+      <div class="arrow"><span class="line"></span>→<span class="line"></span></div>
+      <div class="outcome"> Where security or policy restricts deep links, hand off to the external payment flow. After the user completes it and selects <b>“Back to AI”</b>, a vision LLM reads the screen and responds: <b> “The $50 transfer is complete.” </b> The conversation continues in context. </div>
+      <div class="tags"><span class="tg"> External handoff </span><span class="tg"> Vision analysis on return </span></div>
+    </div>
+
+    <!-- 회의 Agent -->
+    <div class="kcard">
+      <div class="khead">
+        <div class="kico" style="background:rgba(199,62,29,0.14);border:1px solid rgba(199,62,29,0.3)">🧑‍💼</div>
+        <div><div class="ks">Meeting Agent</div><div class="kt"> Meetings — Transcribe, summarize and organize </div></div>
+      </div>
+      <div class="utter"> “I’m starting a meeting. Please <span class="q"> take notes </span> for me.” </div>
+      <div class="arrow"><span class="line"></span>→<span class="line"></span></div>
+      <div class="outcome"> Open the Meeting card for a live transcript. At the end, summarize <b> topics, decisions and action items </b> including who owns each action and when it is due. </div>
+      <div class="tags"><span class="tg"> Live STT </span><span class="tg"> Summary · Action items </span></div>
+    </div>
+
+    <!-- 동시통역 Agent -->
+    <div class="kcard">
+      <div class="khead">
+        <div class="kico" style="background:rgba(46,125,107,0.16);border:1px solid rgba(46,125,107,0.35)">🎧</div>
+        <div><div class="ks">Live Interpretation</div><div class="kt"> Interpretation — Two-way international conversations </div></div>
+      </div>
+      <div class="utter"> “Turn on <span class="q"> live interpretation </span> now.” </div>
+      <div class="arrow"><span class="line"></span>→<span class="line"></span></div>
+      <div class="outcome"> Live audio enables <b> low-latency, two-way interpretation </b> . The web chatbot releases the microphone while the native app takes over, then resumes when interpretation ends. </div>
+      <div class="tags"><span class="tg">Live</span><span class="tg">Native Audio</span></div>
+    </div>
+
+    <!-- 번역 Agent -->
+    <div class="kcard">
+      <div class="khead">
+        <div class="kico" style="background:rgba(76,125,229,0.14);border:1px solid rgba(76,125,229,0.3)">🌐</div>
+        <div><div class="ks">Translation Agent</div><div class="kt"> Translation — Conversations and documents </div></div>
+      </div>
+      <div class="utter">“Please <span class="q">translate</span> this sentence into English.”</div>
+      <div class="arrow"><span class="line"></span>→<span class="line"></span></div>
+      <div class="outcome"> The web translation pipeline handles the request immediately. While interpretation supports live conversation, the Translation Agent focuses on <b> accurate sentence-level translation </b> and routes each request to the appropriate web or native flow. </div>
+      <div class="tags"><span class="tg"> Web translation pipeline </span><span class="tg"> Sentence-level translation </span></div>
+    </div>
+
+    <!-- 개인화 기억 -->
+    <div class="kcard">
+      <div class="khead">
+        <div class="kico" style="background:rgba(199,62,29,0.14);border:1px solid rgba(199,62,29,0.3)">🧠</div>
+        <div><div class="ks">Memory · mem0</div><div class="kt"> Memory — No need to explain everything again </div></div>
+      </div>
+      <div class="utter"> “Remember that I have a <span class="q"> milk allergy </span> ? Find a nearby dessert cafe and give me directions.” </div>
+      <div class="arrow"><span class="line"></span>→<span class="line"></span></div>
+      <div class="outcome"> mem0 recalls personal constraints, search applies them, and the map app opens with <b> route guidance ready </b> . Memory, search and app execution work together in one request. </div>
+      <div class="tags"><span class="tg"> Personal memory </span><span class="tg"> Search + app action </span></div>
+    </div>
+
+    <!-- PLAN — full width timeline -->
+    <div class="plan">
+      <div class="phead">
+        <div class="kico">📅</div>
+        <div><div class="ks mono" style="color:var(--gold)">PLAN · Daily Brief</div><div class="kt" style="font-size:18px;font-weight:600"> PLAN — Turn email and calendar items into today’s timeline </div></div>
+      </div>
+      <div class="utter"> “Good morning, DuriOn. <span class="q"> What should I do first today? </span>"</div>
+      <p style="margin:14px 0 0;font-size:13.5px;color:var(--dim);line-height:1.6"> DuriOn reviews new <b style="color:var(--blue)"> email </b> and <b style="color:var(--teal)"> calendar events </b> and organizes today’s tasks into <b style="color:var(--text)"> a chronological timeline </b> for a spoken briefing. </p>
+
+      <div class="timeline">
+        <div class="tl">
+          <div class="time">09:00</div>
+          <div class="body"><div class="ti"> Weekly team stand-up </div><div class="src cal"> ▸ Calendar · Meeting room B · 30 min </div></div>
+        </div>
+        <div class="tl">
+          <div class="time">11:00</div>
+          <div class="body"><div class="ti"> Reply with design mockups (deadline) </div><div class="src mail"> ▸ Email · Kim: “Please send them today” </div></div>
+        </div>
+        <div class="tl">
+          <div class="time">13:30</div>
+          <div class="body"><div class="ti"> Travel to client meeting </div><div class="src act"> ▸ Action · “Open directions in TMap?” </div></div>
+        </div>
+        <div class="tl">
+          <div class="time">15:00</div>
+          <div class="body"><div class="ti"> Reply to contract review </div><div class="src mail"> ▸ Email · Legal team · 3 attachments </div></div>
+        </div>
+        <div class="tl">
+          <div class="time">18:00</div>
+          <div class="body"><div class="ti"> Dinner with parents </div><div class="src cal"> ▸ Calendar · Personal </div></div>
+        </div>
+      </div>
+
+      <div class="say">
+        🔊 <b> “Today you have one meeting and two deadlines. </b> The design mockups are due at 11, and you need to leave for the client at 1:30. Shall we start with the mockups? <b> I can prepare TMap directions before you leave at 1:30. </b>"
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- COMPARE -->
+<section class="wrap">
+  <div class="sec-label">Why DuriOn</div>
+  <h2 class="sec-title"> How the interaction differs from basic voice workflows </h2>
+  <div class="compare">
+    <div class="row head"><div> Capability </div><div> Basic voice-response / app-launch workflow </div><div class="us">DuriOn</div></div>
+    <div class="row"><div class="c-item"> Depth of in-app preparation </div><div class="no"> 0 — Spoken answer only </div><div class="us yes"><b> 3–5 — Recipient, content, filters, sorting and context </b></div></div>
+    <div class="row"><div class="c-item"> Multiple app handoffs in one session </div><div class="no">✗</div><div class="us yes"><b> ✓ Central to the travel scenario </b></div></div>
+    <div class="row"><div class="c-item"> Continue after returning from an app </div><div class="no"> ✗ Requires restoring context </div><div class="us yes"><b> ✓ Vision analysis on return </b></div></div>
+    <div class="row"><div class="c-item"> Routing tailored to the user’s phone </div><div class="no">✗</div><div class="us yes"><b> ✓ Based on app inventory </b></div></div>
+    <div class="row"><div class="c-item"> Handoff to payment and transfer flows </div><div class="no">✗</div><div class="us yes"><b> ✓ User confirmation retained </b></div></div>
+  </div>
+</section>
+
+<!-- 10 SCENARIOS -->
+<section class="wrap">
+  <div class="sec-label">Query Showcase</div>
+  <h2 class="sec-title"> Ten requests that show DuriOn’s value </h2>
+  <p class="sec-sub"> These requests benefit from action as well as an answer: busy hands, multiple steps, personalization and context that survives app switches. </p>
+
+  <div class="tenlist">
+    <div class="tenrow">
+      <div class="no">1</div>
+      <div>
+        <div class="tq"> “Show me <span class="q"> driving directions </span> to Gangnam Station.” </div>
+        <div class="td"> Open TMap or Naver Map with <b> Route guidance </b> instead of reading directions aloud. Useful when manual interaction is difficult. </div>
+        <span class="tt">Navigation</span>
+      </div>
+    </div>
+    <div class="tenrow">
+      <div class="no">2</div>
+      <div>
+        <div class="tq"> “I want to tell Mom on KakaoTalk: <span class="q"> ‘I’ll be late today’ </span> .” </div>
+        <div class="td"> Open Mom’s KakaoTalk chat with <b> the message already entered </b> . Voice skips the manual navigation and typing steps. </div>
+        <span class="tt">Messaging</span>
+      </div>
+    </div>
+    <div class="tenrow">
+      <div class="no">3</div>
+      <div>
+        <div class="tq">“Open <span class="q">maps</span>.” <span style="color:var(--faint);font-weight:500"> (An ambiguous request) </span></div>
+        <div class="td"> When both Naver Map and TMap are installed, <b> “Which app would you like to use?” </b> clarifies the choice when needed. Candidates come from the user’s installed apps. </div>
+        <span class="tt">Disambiguation</span>
+      </div>
+    </div>
+    <div class="tenrow">
+      <div class="no">4</div>
+      <div>
+        <div class="tq"> (After returning from the map app) <span class="q"> “Did you find your way?” </span></div>
+        <div class="td"> Context continues after the user returns. <b> “Would you like an arrival reminder?” </b> offers a natural next step. </div>
+        <span class="tt">Return Continuity</span>
+      </div>
+    </div>
+    <div class="tenrow">
+      <div class="no">5</div>
+      <div>
+        <div class="tq"> “I’ll send Kim <span class="q"> KRW 30,000 </span> through Toss.” </div>
+        <div class="td"> After the user returns, read the transfer screen and ask: <b> “The transfer is complete. Would you like to capture the receipt?” </b> Action → return → follow-up. </div>
+        <span class="tt">Payment · Vision</span>
+      </div>
+    </div>
+    <div class="tenrow">
+      <div class="no">6</div>
+      <div>
+        <div class="tq"> “Summarize only the <span class="q"> important messages </span> I left unread yesterday.” </div>
+        <div class="td"> Across Gmail, Outlook and Naver Mail, provide <b> a concise spoken briefing </b> covering multiple accounts. </div>
+        <span class="tt">Mail Summary</span>
+      </div>
+    </div>
+    <div class="tenrow">
+      <div class="no">7</div>
+      <div>
+        <div class="tq"> “Add the <span class="q"> meeting invitation I just received </span> to my calendar.” </div>
+        <div class="td"> Combine the email summary and calendar action in <b> one continuous workflow </b> that connects naturally with PLAN. </div>
+        <span class="tt">Mail → Calendar</span>
+      </div>
+    </div>
+    <div class="tenrow">
+      <div class="no">8</div>
+      <div>
+        <div class="tq"> “Remind me of the <span class="q"> cafe you recommended </span> last time.” </div>
+        <div class="td"> mem0 recalls earlier conversations to <b> restore the context </b> without another explanation. </div>
+        <span class="tt">Memory</span>
+      </div>
+    </div>
+    <div class="tenrow">
+      <div class="no">9</div>
+      <div>
+        <div class="tq"> “Remember that I have a <span class="q"> milk allergy </span> ? Find a nearby dessert cafe and show me the route.” </div>
+        <div class="td"> Combine personal constraints, search and app actions in <b> one spoken request </b> to demonstrate DuriOn’s integrated workflow. </div>
+        <span class="tt">Memory + Search + Exec</span>
+      </div>
+    </div>
+    <div class="tenrow">
+      <div class="no">10</div>
+      <div>
+        <div class="tq"> “I’m driving. Turn on <span class="q"> the heating when I get home </span> and show me a gas station on the way.” </div>
+        <div class="td"> One spoken request coordinates multiple apps and conditions. <b> When hands and eyes are busy </b> , voice-driven interaction is especially useful. </div>
+        <span class="tt">Hands-free · Multi-step</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tenpick">
+    <span class="star">⭐</span>
+    <p> For demos and pitches <b> Top three scenarios </b> — <b style="color:var(--accent2)"> No. 1 </b> (navigation), <b style="color:var(--accent2)"> No. 4 </b> (continuity after return), and <b style="color:var(--accent2)"> No. 9 </b> (memory + search + action) illustrate DuriOn’s app-oriented experience. </p>
+  </div>
+</section>
+
+<footer><div class="wrap foot">
+  <div class="l"> DuriOn · App Concierge Voice AI · “Speak, and the next step is ready” · Project introduction (2/2) </div>
+  <a class="backbtn" href="https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/01-structure-features-en.html"> ← Back to architecture and features </a>
+</div></footer>
+
+</body>
+</html>
+

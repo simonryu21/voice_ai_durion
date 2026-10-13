@@ -41,7 +41,7 @@
   .mark{width:26px;height:26px;flex-shrink:0}
   .brand b{font-size:19px;font-weight:700;letter-spacing:-0.02em}
   .brand small{font-size:11px;color:var(--faint);font-weight:500}
-  .navlinks{display:flex;gap:8px}
+  .navlinks{display:flex;gap:8px;flex-wrap:wrap}
   .navlinks a{
     font-size:12.5px;text-decoration:none;color:var(--dim);
     padding:7px 13px;border-radius:9px;border:1px solid transparent;transition:.15s;
@@ -268,6 +268,9 @@
   @media(max-width:440px){
     .hero h1{white-space:normal}
   }
+
+  .language-switch{white-space:nowrap}
+  @media(max-width:600px){.topbar .wrap{height:auto;min-height:62px;gap:10px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}}
 </style>
 </head>
 <body>
@@ -279,8 +282,8 @@
     <div><b>DuriOn</b> &nbsp;<small class="mono">App Concierge Voice AI</small></div>
   </div>
   <div class="navlinks">
-    <a class="on" href="01-structure-features.html">구조 &amp; 기능</a>
-    <a href="02-use-cases.html">시나리오</a>
+    <a class="on" href="https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/01-structure-features.html">구조 &amp; 기능</a>
+    <a href="https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/02-use-cases.html">시나리오</a><a class="language-switch" href="https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/01-structure-features-en.html">English</a>
   </div>
 </div></div>
 
@@ -567,8 +570,9 @@
 
 <footer><div class="wrap foot">
   <div class="l">DuriOn · App Concierge Voice AI &nbsp;·&nbsp; Built on Pipecat &nbsp;·&nbsp; 데모 설명 자료 (1/2)</div>
-  <a class="nextbtn" href="02-use-cases.html">Main 시나리오 보기 &nbsp;→</a>
+  <a class="nextbtn" href="https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/02-use-cases.html">Main 시나리오 보기 &nbsp;→</a>
 </div></footer>
 
 </body>
 </html>
+

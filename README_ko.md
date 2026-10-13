@@ -6,10 +6,10 @@ DuriOn은 음성으로 대화하고, 사용자의 맥락을 기억하며, 모바
 
 ## DuriOn 소개
 
-- [구조와 주요 기능](01-structure-features.html)
-- [사용 시나리오](02-use-cases.html)
+- [구조와 주요 기능](https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/01-structure-features.html)
+- [사용 시나리오](https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/02-use-cases.html)
 
-HTML 파일을 내려받아 브라우저에서 열면 소개 페이지를 볼 수 있습니다. GitHub 파일 화면에서는 HTML 소스가 표시됩니다. 두 파일은 서로 연결되며 원본은 `mobile_pipecat/docs/durion-promo/`에도 있습니다.
+위 링크는 HTML Preview를 통해 한국어 소개 화면을 바로 엽니다. 다운로드할 필요가 없습니다. 각 페이지 상단에서 영어 버전으로 전환할 수 있습니다. 소스는 [구조와 기능 HTML](01-structure-features.html), [사용 시나리오 HTML](02-use-cases.html)에서 확인할 수 있습니다.
 
 ## 프로젝트 구성
 
@@ -151,3 +151,4 @@ API 키, `.env`, 서비스 계정 JSON, Firebase 설정, 개인키·키스토어
 각 프로젝트에 포함된 LICENSE 및 저작권 고지를 유지합니다. Pipecat, Mem0, Voice UI Kit 등 원본 프로젝트와 외부 라이브러리의 라이선스는 각 폴더의 파일을 확인하세요.
 
 이 안내는 현재 소스와 설정 파일을 기준으로 작성했습니다. 실제 API 키·DB·Android/Firebase 환경을 연결하는 전체 실행 검증은 별도로 필요합니다.
+

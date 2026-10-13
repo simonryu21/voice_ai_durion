@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title> DuriOn · Architecture and Features </title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E0B0A; --surface:#1A1413; --surface2:#241B19;
+    --border:rgba(255,255,255,0.09); --border2:rgba(255,255,255,0.06);
+    --text:#F7F1ED; --dim:rgba(247,241,237,0.62); --faint:rgba(247,241,237,0.34);
+    --accent:#C73E1D; --accent2:#E55934; --accent3:#D94A2B;
+    --green:#4ADE80; --canvas:#E8E2DC;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(1200px 700px at 80% -10%, rgba(199,62,29,0.18), transparent 60%),
+      radial-gradient(900px 600px at -10% 20%, rgba(46,125,107,0.08), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Geist',ui-sans-serif,system-ui,-apple-system,sans-serif;
+    letter-spacing:-0.01em;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'Geist Mono',ui-monospace,monospace}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+
+  /* ── top nav ── */
+  .topbar{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    background:rgba(14,11,10,0.72);border-bottom:1px solid var(--border2);
+  }
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+  .brand{display:flex;align-items:center;gap:11px}
+  .mark{width:26px;height:26px;flex-shrink:0}
+  .brand b{font-size:19px;font-weight:700;letter-spacing:-0.02em}
+  .brand small{font-size:11px;color:var(--faint);font-weight:500}
+  .navlinks{display:flex;gap:8px;flex-wrap:wrap}
+  .navlinks a{
+    font-size:12.5px;text-decoration:none;color:var(--dim);
+    padding:7px 13px;border-radius:9px;border:1px solid transparent;transition:.15s;
+  }
+  .navlinks a:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+  .navlinks a.on{color:#fff;background:var(--accent);border-color:var(--accent)}
+
+  /* ── hero ── */
+  .hero{padding:74px 0 40px;position:relative}
+  .kicker{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent2);padding:6px 12px;border-radius:999px;
+    background:rgba(199,62,29,0.12);border:1px solid rgba(199,62,29,0.35);
+  }
+  .hero h1{
+    font-size:clamp(28px,3.6vw,42px);line-height:1.12;font-weight:700;
+    letter-spacing:-0.025em;margin:44px 0 0;max-width:none;white-space:nowrap;
+  }
+  .hero h1 .hl{
+    background:linear-gradient(180deg,transparent 58%, rgba(199,62,29,0.45) 58%);
+    padding:0 2px;
+  }
+  .brand-intro{margin-top:24px}
+  .brand-intro .bi-tag{line-height:1.06;letter-spacing:-0.035em}
+  .brand-intro .bi-tag .bi-name{
+    font-size:clamp(48px,8vw,84px);font-weight:800;color:var(--accent2);
+  }
+  .brand-intro .bi-tag .bi-sub{
+    display:inline-block;margin-top:6px;
+    font-size:clamp(30px,4.4vw,50px);font-weight:700;color:var(--text);
+    letter-spacing:-0.025em;
+  }
+  .brand-intro .bi-desc{
+    margin-top:14px;font-size:clamp(16px,1.9vw,19px);line-height:1.55;
+    font-weight:500;color:var(--text);
+  }
+  .brand-intro .bi-desc .em{color:var(--accent2);font-weight:700}
+  .hero p.lede{
+    margin:22px 0 0;font-size:clamp(16px,2vw,19px);line-height:1.6;
+    color:var(--dim);max-width:56ch;
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}
+  .chip{
+    font-size:12px;padding:7px 13px;border-radius:999px;
+    background:var(--surface);border:1px solid var(--border);color:var(--dim);
+    display:inline-flex;align-items:center;gap:7px;
+  }
+  .chip .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+  .chip .g{background:var(--green);box-shadow:0 0 8px var(--green)}
+
+  /* ── section header ── */
+  section{padding:46px 0}
+  .sec-label{
+    font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--faint);
+  }
+  .sec-title{font-size:clamp(26px,3.4vw,38px);font-weight:700;letter-spacing:-0.03em;margin:10px 0 0;line-height:1.1}
+  .sec-sub{color:var(--dim);font-size:16px;margin:14px 0 0;max-width:64ch;line-height:1.6}
+
+  /* ── positioning ladder ── */
+  .ladder{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:34px}
+  .rung{
+    border-radius:18px;padding:22px 20px;border:1px solid var(--border);
+    background:var(--surface);position:relative;overflow:hidden;
+  }
+  .rung.top{
+    background:linear-gradient(155deg,rgba(199,62,29,0.22),var(--surface2));
+    border-color:rgba(199,62,29,0.5);
+  }
+  .rung .lv{font-family:'Geist Mono',monospace;font-size:12px;color:var(--faint);letter-spacing:.08em}
+  .rung.top .lv{color:var(--accent2)}
+  .rung h3{margin:12px 0 8px;font-size:18px;font-weight:600}
+  .rung p{margin:0;color:var(--dim);font-size:13.5px;line-height:1.55}
+  .rung .rest{
+    margin-top:16px;font-size:12px;padding:7px 11px;border-radius:9px;
+    display:inline-block;background:rgba(255,255,255,0.05);color:var(--dim);
+  }
+  .rung.top .rest{background:rgba(199,62,29,0.2);color:#ffd9cd}
+  .rung .badge{position:absolute;top:16px;right:16px;font-size:10px;font-family:'Geist Mono',monospace;
+    color:#fff;background:var(--accent);padding:3px 8px;border-radius:6px}
+
+  /* ── architecture ── */
+  .arch{margin-top:34px;display:flex;flex-direction:column;gap:12px}
+  .layer{
+    border-radius:16px;border:1px solid var(--border);background:var(--surface);
+    padding:16px 18px;display:grid;grid-template-columns:170px 1fr;gap:18px;align-items:center;
+  }
+  .layer .lname{display:flex;flex-direction:column;gap:4px}
+  .layer .lname .t{font-weight:600;font-size:14.5px}
+  .layer .lname .s{font-size:11px;color:var(--faint);font-family:'Geist Mono',monospace}
+  .layer .parts{display:flex;flex-wrap:wrap;gap:8px}
+  .pill{font-size:12px;padding:6px 11px;border-radius:999px;background:var(--surface2);
+    border:1px solid var(--border2);color:var(--dim)}
+  .pill.hot{background:rgba(199,62,29,0.16);border-color:rgba(199,62,29,0.4);color:#ffcfc2}
+  .pill.agent{font-size:10.5px;padding:4px 9px;background:rgba(201,162,39,0.14);
+    border-color:rgba(201,162,39,0.4);color:#f0dd9e}
+  .layer .parts .route{color:var(--faint);font-size:12px;margin:0 -2px}
+  .layer.l-native{border-left:3px solid #2E7D6B}
+  .layer.l-web{border-left:3px solid #4C7DE5}
+  .layer.l-server{border-left:3px solid var(--accent)}
+  .layer.l-agent{border-left:3px solid #C9A227}
+  .flowtag{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--faint);
+    font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em;padding:2px 0}
+  .flowtag span{opacity:.7}
+  .archnote{
+    margin-top:16px;border-radius:14px;border:1px dashed var(--border);padding:16px 18px;
+    background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);
+    display:flex;gap:16px;flex-wrap:wrap;
+  }
+  .archnote .k{font-family:'Geist Mono',monospace;font-size:11px;color:var(--accent2);letter-spacing:.06em}
+  .archnote .item{flex:1;min-width:210px}
+  .archnote .item p{margin:6px 0 0;color:var(--dim);font-size:12.5px;line-height:1.5}
+
+  /* ── feature grid ── */
+  .fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:34px}
+  .fcard{
+    border-radius:18px;border:1px solid var(--border);background:var(--surface);
+    padding:20px 18px;display:flex;flex-direction:column;gap:12px;min-height:186px;
+    position:relative;overflow:hidden;transition:.18s;
+  }
+  .fcard:hover{border-color:rgba(199,62,29,0.45);transform:translateY(-3px)}
+  .fcard .ic{
+    width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    background:rgba(199,62,29,0.14);border:1px solid rgba(199,62,29,0.3);font-size:20px;
+  }
+  .fcard .ft{font-size:9.5px;font-family:'Geist Mono',monospace;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--faint)}
+  .fcard h4{margin:0;font-size:16px;font-weight:600}
+  .fcard p{margin:0;font-size:13px;line-height:1.55;color:var(--dim)}
+  .fcard.new::after{content:"NEW";position:absolute;top:15px;right:15px;font-size:9px;
+    font-family:'Geist Mono',monospace;color:#fff;background:var(--accent);padding:2px 6px;border-radius:5px}
+
+  /* ── UI showcase ── */
+  .ui-showcase{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:36px;align-items:start}
+  .phone-wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+  .phone{
+    width:100%;max-width:290px;aspect-ratio:392/820;
+    border-radius:40px;border:9px solid #15110F;background:#0E0B0A;overflow:hidden;
+    box-shadow:0 30px 70px rgba(0,0,0,0.45),0 0 0 1px rgba(255,255,255,0.04) inset;
+    position:relative;
+  }
+  .p-inner{position:absolute;inset:0;display:flex;flex-direction:column}
+  .p-status{display:flex;justify-content:space-between;align-items:center;padding:12px 20px 4px;font-size:11px;font-weight:600}
+  .p-appbar{display:flex;align-items:center;justify-content:space-between;padding:8px 16px 12px;border-bottom:1px solid var(--border)}
+  .p-appbar .wm{display:flex;align-items:center;gap:7px;font-weight:600;font-size:14px}
+  .statuspill{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:999px;
+    background:rgba(255,255,255,0.04);border:1px solid var(--border);font-family:'Geist Mono',monospace;font-size:9px;color:var(--dim)}
+  .statuspill .d{width:5px;height:5px;border-radius:50%}
+  .p-body{flex:1;overflow:hidden;padding:16px 16px}
+  .greet{font-size:20px;font-weight:600;line-height:1.2;letter-spacing:-0.02em}
+  .greet .d{color:var(--dim)}
+  .greet .hl{background:linear-gradient(180deg,transparent 60%,rgba(199,62,29,0.4) 60%)}
+  .sess{margin-top:7px;font-family:'Geist Mono',monospace;font-size:9px;color:var(--faint);letter-spacing:.06em}
+  .grid4{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:18px}
+  .acard{
+    text-align:left;padding:13px 12px;border-radius:14px;background:var(--surface);
+    border:1px solid var(--border);display:flex;flex-direction:column;gap:12px;min-height:96px;
+  }
+  .acard .tag{align-self:flex-start;font-family:'Geist Mono',monospace;font-size:8.5px;letter-spacing:.08em;
+    text-transform:uppercase;padding:3px 7px;border-radius:5px;background:rgba(255,255,255,0.05);color:var(--dim)}
+  .acard.hot .tag{background:var(--accent);color:#fff}
+  .acard .an{font-size:13px;font-weight:600;line-height:1.3}
+  .acard .ad{font-size:10.5px;color:var(--dim);margin-top:-6px}
+  .p-askbar{padding:10px 14px 16px}
+  .askbar{display:flex;align-items:center;gap:9px;padding:7px 7px 7px 14px;border-radius:26px;
+    background:#1F1816;border:1.5px solid var(--border)}
+  .askbar.live{border-color:var(--accent);box-shadow:0 0 0 4px rgba(199,62,29,0.15)}
+  .askbar .ph{flex:1;font-size:13px;color:var(--faint)}
+  .askbar .mic{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.05);
+    display:flex;align-items:center;justify-content:center}
+  .askbar.live .mic{background:var(--accent)}
+
+  /* listening */
+  .listen-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:20px}
+  .glow{position:absolute;inset:0;background:radial-gradient(circle at 50% 48%,rgba(199,62,29,0.24),transparent 55%)}
+  .viz{display:flex;align-items:center;gap:5px;height:150px;z-index:1}
+  .viz i{width:6px;border-radius:3px;background:var(--accent);display:block;animation:vb 1.1s ease-in-out infinite}
+  @keyframes vb{0%,100%{height:14px;opacity:.6}50%{height:var(--h);opacity:1}}
+  .listen-cap{margin-top:30px;font-size:18px;font-weight:600;text-align:center;line-height:1.3;z-index:1}
+  .listen-tag{margin-top:16px;display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:999px;
+    background:rgba(255,255,255,0.04);border:1px solid var(--border);font-family:'Geist Mono',monospace;font-size:9.5px;color:var(--dim);z-index:1}
+
+  /* overlay bar phone */
+  .host{flex:1;background:var(--bg);padding:14px 16px}
+  .host-h{display:flex;align-items:center;gap:9px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+  .host-h .ico{width:24px;height:24px;border-radius:7px;background:#2E7D6B;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px}
+  .host-title{margin-top:16px;font-size:19px;font-weight:600}
+  .host-sub{font-family:'Geist Mono',monospace;font-size:9px;color:var(--faint);letter-spacing:.08em;text-transform:uppercase;margin-top:12px}
+  .host-list{margin-top:12px;display:flex;flex-direction:column;gap:11px;font-size:12.5px;color:var(--dim)}
+  .host-list .done{color:var(--faint);text-decoration:line-through}
+  .overlay-bar{position:absolute;left:12px;right:12px;bottom:14px;border-radius:24px;padding:4px;
+    background:rgba(199,62,29,0.16);box-shadow:0 0 0 1.5px var(--accent),0 18px 44px rgba(0,0,0,0.5),0 6px 16px rgba(199,62,29,0.35)}
+  .overlay-in{display:flex;align-items:center;gap:9px;padding:7px 7px 7px 12px;border-radius:20px;background:rgba(20,16,15,0.94)}
+  .overlay-in .miniviz{flex:1;display:flex;align-items:center;gap:2.5px;height:26px}
+  .overlay-in .miniviz i{width:3px;border-radius:2px;background:var(--accent);animation:vb 1s ease-in-out infinite}
+  .overlay-in .stop{width:32px;height:32px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .cap{text-align:center;color:var(--dim);font-size:13px;margin-top:2px}
+  .cap b{color:var(--text);font-weight:600}
+
+  /* ── moat ── */
+  .moat{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}
+  .moatcard{border-radius:18px;border:1px solid var(--border);background:var(--surface);padding:22px 20px}
+  .moatcard .num{font-family:'Geist Mono',monospace;font-size:13px;color:var(--accent2)}
+  .moatcard h4{margin:12px 0 8px;font-size:17px;font-weight:600}
+  .moatcard p{margin:0;font-size:13px;color:var(--dim);line-height:1.6}
+  .moatcard .have{margin-top:14px;font-size:11px;color:var(--green);font-family:'Geist Mono',monospace}
+
+  /* footer */
+  footer{padding:40px 0 60px;border-top:1px solid var(--border2);margin-top:30px}
+  .foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  .foot .l{color:var(--faint);font-size:12px}
+  .nextbtn{display:inline-flex;align-items:center;gap:9px;text-decoration:none;
+    background:var(--accent);color:#fff;padding:12px 20px;border-radius:12px;font-weight:600;font-size:14px}
+  .nextbtn:hover{background:var(--accent3)}
+
+  @media(max-width:960px){
+    .ladder,.moat{grid-template-columns:1fr}
+    .fgrid{grid-template-columns:1fr 1fr}
+    .ui-showcase{grid-template-columns:1fr}
+    .phone{max-width:320px}
+    .layer{grid-template-columns:1fr;gap:12px}
+  }
+  @media(max-width:440px){
+    .hero h1{white-space:normal}
+  }
+
+  .language-switch{white-space:nowrap}
+  @media(max-width:600px){.topbar .wrap{height:auto;min-height:62px;gap:10px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="topbar"><div class="wrap">
+  <div class="brand">
+    <svg class="mark" viewBox="0 0 22 22"><rect width="22" height="22" rx="5" fill="#C73E1D"/><rect x="5" y="5" width="4" height="12" fill="#fff"/><rect x="13" y="5" width="4" height="6" fill="#fff"/></svg>
+    <div><b>DuriOn</b> &nbsp;<small class="mono">App Concierge Voice AI</small></div>
+  </div>
+  <div class="navlinks">
+    <a class="on" href="https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/01-structure-features-en.html"> Architecture &amp; Features </a>
+    <a href="https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/02-use-cases-en.html"> Use Cases </a><a class="language-switch" href="https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/01-structure-features.html">한국어</a>
+  </div>
+</div></div>
+
+<!-- HERO -->
+<div class="wrap hero">
+  <span class="kicker">◉ Wake word · "DuriOn"</span>
+  <div class="brand-intro">
+    <div class="bi-tag"><span class="bi-name">DuriOn</span> <span class="bi-sub"> — A day powered by you and AI, together </span></div>
+    <div class="bi-desc">DuriOn combines <span class="em">“Duri” (the two of us)</span> and <span class="em">“On”</span> — you and AI moving forward together.</div>
+    <div class="chips">
+      <span class="chip"><span class="dot g"></span>Zero-Touch</span>
+      <span class="chip"><span class="dot"></span>Last-Mile Execution</span>
+      <span class="chip"><span class="dot"></span>Parameter Richness</span>
+      <span class="chip"><span class="dot"></span>2-Tier LLM Agent</span>
+      <span class="chip"><span class="dot"></span>On-device Wake</span>
+    </div>
+  </div>
+  <h1> Speak, and the <span class="hl"> screen </span> opens. </h1>
+  <p class="lede"> DuriOn goes beyond <b style="color:var(--text)"> opening an app </b> to prepare <b style="color:var(--text)"> the screen and inputs you need </b> for your next action. Built on Pipecat, it orchestrates STT, LLM and TTS in real time and launches apps on your phone. </p>
+</div>
+
+<!-- POSITIONING -->
+<section class="wrap">
+  <div class="sec-label">01 · Positioning</div>
+  <h2 class="sec-title"> The difference is how far the assistant takes you </h2>
+  <p class="sec-sub"> The key is <b style="color:var(--text)"> how much of the task is prepared inside the app </b> before you take over. </p>
+  <div class="ladder">
+    <div class="rung">
+      <div class="lv"> Lv.0 — Spoken information </div>
+      <h3> An answer in words </h3>
+      <p> The assistant provides information; you still need to open the app and complete the task. </p>
+      <span class="rest"> Remaining actions · About 4–6 in this example </span>
+    </div>
+    <div class="rung">
+      <div class="lv"> Lv.1 — Basic app launch </div>
+      <h3> Open the app’s home screen </h3>
+      <p> “Opening KakaoTalk” — you still need to find the recipient and type the message. </p>
+      <span class="rest"> Remaining actions · About 3 in this example </span>
+    </div>
+    <div class="rung top">
+      <span class="badge">DuriOn</span>
+      <div class="lv">Lv.2 — App Concierge</div>
+      <h3> App, screen and inputs prepared </h3>
+      <p> Mom’s chat opens with “I’ll be 10 minutes late” ready. You confirm Send or authenticate. </p>
+      <span class="rest"> Remaining action · Final confirmation </span>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="wrap">
+  <div class="sec-label">02 · Architecture</div>
+  <h2 class="sec-title"> Four layers working as one </h2>
+  <p class="sec-sub"> Four layers connect the phone interface to the voice engine, while <b style="color:var(--text)"> one continuous conversation </b> preserves context from the first request through the app handoff and return. </p>
+
+  <div class="arch">
+    <div class="layer l-agent">
+      <div class="lname"><span class="t">Voice Multi-Agent</span><span class="s">Supervisor + Worker</span></div>
+      <div class="parts">
+        <span class="pill hot"> Supervisor (routing) </span>
+        <span class="route">→</span>
+        <span class="pill agent"> Meeting Agent </span>
+        <span class="pill agent"> Translation Agent </span>
+        <span class="pill agent"> Interpretation Agent </span>
+        <span class="pill agent">PLAN Agent</span>
+        <span class="pill hot"> AppConcierge (app + parameters) </span>
+        <span class="pill">Tools · MCP · Deep Link</span>
+        <span class="pill"> Vision LLM (return analysis) </span>
+      </div>
+    </div>
+    <div class="flowtag"><span>handoff ↕ tool call</span></div>
+    <div class="layer l-server">
+      <div class="lname"><span class="t">Pipecat Server</span><span class="s">Python · :7860</span></div>
+      <div class="parts">
+        <span class="pill hot">STT → LLM → TTS</span>
+        <span class="pill">VAD · Turn Mgmt</span>
+        <span class="pill">RTVI Processor</span>
+        <span class="pill">Serializers</span>
+        <span class="pill">mem0 · App Catalog</span>
+      </div>
+    </div>
+    <div class="flowtag"><span>on_client_message ↕ server-message</span></div>
+    <div class="layer l-web">
+      <div class="lname"><span class="t">Web Frontend</span><span class="s">voice-ui-kit · React</span></div>
+      <div class="parts">
+        <span class="pill">RTVI Client</span>
+        <span class="pill hot"> Home-card launcher (4 agents) </span>
+        <span class="pill">AskBar</span>
+        <span class="pill">JS Bridge Adapter</span>
+      </div>
+    </div>
+    <div class="flowtag"><span>RTVI over WebRTC DataChannel ↕</span></div>
+    <div class="layer l-native">
+      <div class="lname"><span class="t">Android / iPhone Client</span><span class="s">WebView + Native</span></div>
+      <div class="parts">
+        <span class="pill">Voice UI (WebRTC)</span>
+        <span class="pill hot">Intent / Deeplink Launcher</span>
+        <span class="pill"> Live interpretation </span>
+        <span class="pill"> App inventory collection </span>
+        <span class="pill"> Return detection · Screenshot </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="archnote">
+    <div class="item"><span class="k">2-Tier LLM</span><p> The Supervisor routes text and app tasks. AppConcierge focuses on app selection and parameter extraction. </p></div>
+    <div class="item"><span class="k">Personalized Routing</span><p> Combine the installed-app inventory with a curated catalog. Only available apps become candidates, with dynamic system-prompt context at login. </p></div>
+    <div class="item"><span class="k">Lifecycle Tracking</span><p> Track requested → opened → returned with a handoff_id. Failures and return events feed directly into the LLM context. </p></div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="wrap">
+  <div class="sec-label">03 · Capabilities</div>
+  <h2 class="sec-title"> One voice assistant, many capabilities </h2>
+  <p class="sec-sub"> Start from four home cards: Meeting, Translation, Interpretation and PLAN. For open-ended requests, AppConcierge prepares the relevant state inside an app. </p>
+
+  <div class="fgrid">
+    <div class="fcard">
+      <div class="ic">🎯</div>
+      <div><div class="ft">Deeplink Track</div><h4>AppConcierge</h4></div>
+      <p> Interpret speech and open map, messaging, music or shopping apps with <b style="color:var(--text)"> the required inputs ready </b> for the next action. </p>
+    </div>
+    <div class="fcard">
+      <div class="ic">🔁</div>
+      <div><div class="ft">Vision Track</div><h4> Context across app handoffs </h4></div>
+      <p> After a payment or booking flow, a vision LLM reads the returned screen to <b style="color:var(--text)"> continue the conversation </b> in context. </p>
+    </div>
+    <div class="fcard">
+      <div class="ic">🗺️</div>
+      <div><div class="ft">Personalization</div><h4> Personalized routing </h4></div>
+      <p> Use the installed-app inventory and usage frequency to choose the user’s preferred app for each task category. </p>
+    </div>
+    <div class="fcard new">
+      <div class="ic">📅</div>
+      <div><div class="ft">Daily Brief</div><h4>PLAN</h4></div>
+      <p> Read email and calendar entries, then present <b style="color:var(--text)"> today’s tasks in chronological order </b> as a spoken morning briefing. </p>
+    </div>
+    <div class="fcard new">
+      <div class="ic">🧑‍💼</div>
+      <div><div class="ft">Meeting Agent</div><h4> Meeting Agent </h4></div>
+      <p> Capture meeting speech and <b style="color:var(--text)"> produce transcripts and summaries </b> with topics, decisions and action items. </p>
+    </div>
+    <div class="fcard new">
+      <div class="ic">🌐</div>
+      <div><div class="ft">Translation</div><h4> Translation Agent </h4></div>
+      <p> Support more than ten languages for <b style="color:var(--text)"> conversations and documents </b> in real time. </p>
+    </div>
+    <div class="fcard new">
+      <div class="ic">🎧</div>
+      <div><div class="ft">Live Interpret</div><h4> Interpretation Agent </h4></div>
+      <p> Use live audio for <b style="color:var(--text)"> low-latency, two-way interpretation </b> during international meetings. </p>
+    </div>
+    <div class="fcard">
+      <div class="ic">📧</div>
+      <div><div class="ft">Mail + Memory</div><h4> Email summaries · mem0 </h4></div>
+      <p> Summarize across Gmail, Outlook, Naver and Daum, while mem0 <b style="color:var(--text)"> remembers personal context </b>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- UI SHOWCASE -->
+<section class="wrap">
+  <div class="sec-label">04 · New Interface</div>
+  <h2 class="sec-title"> The DuriOn interface </h2>
+  <p class="sec-sub"> Deep vermilion accents and Geist typography connect the home launcher, voice listening screen and system overlay in one consistent interface. </p>
+
+  <div class="ui-showcase">
+    <!-- Phone 1: Home launcher -->
+    <div class="phone-wrap">
+      <div class="phone"><div class="p-inner">
+        <div class="p-status"><span class="mono">9:32</span><span>▲ ▮ ▰</span></div>
+        <div class="p-appbar">
+          <div class="wm"><svg width="20" height="20" viewBox="0 0 22 22"><rect width="22" height="22" rx="5" fill="#C73E1D"/><rect x="5" y="5" width="4" height="12" fill="#fff"/><rect x="13" y="5" width="4" height="6" fill="#fff"/></svg>DuriOn</div>
+          <span class="statuspill"><span class="d" style="background:#4ADE80;box-shadow:0 0 8px #4ADE80"></span>ready · 142ms</span>
+        </div>
+        <div class="p-body">
+          <div class="greet"><span class="d"> Good morning, </span><br> how can I <span class="hl"> help today </span>?</div>
+          <div class="sess mono">SESSION · 2026·07·01</div>
+          <div class="grid4">
+            <div class="acard hot"><span class="tag">meeting</span><div><div class="an"> Meeting </div><div class="ad"> Transcribe · Summarize </div></div></div>
+            <div class="acard"><span class="tag">translate</span><div><div class="an"> Translate </div><div class="ad"> Real-time web translation </div></div></div>
+            <div class="acard"><span class="tag">interpret</span><div><div class="an"> Interpret </div><div class="ad">Live</div></div></div>
+            <div class="acard"><span class="tag">plan</span><div><div class="an">PLAN</div><div class="ad"> Today’s timeline </div></div></div>
+          </div>
+        </div>
+        <div class="p-askbar"><div class="askbar"><span style="color:var(--dim)">＋</span><span class="ph"> Ask me anything </span><span class="mic">🎤</span></div></div>
+      </div></div>
+      <div class="cap"><b> 01 · Home launcher </b> — Four agent cards </div>
+    </div>
+
+    <!-- Phone 2: Listening -->
+    <div class="phone-wrap">
+      <div class="phone"><div class="p-inner">
+        <div class="p-status"><span class="mono">9:32</span><span>▲ ▮ ▰</span></div>
+        <div class="p-appbar">
+          <div class="wm"><svg width="20" height="20" viewBox="0 0 22 22"><rect width="22" height="22" rx="5" fill="#C73E1D"/><rect x="5" y="5" width="4" height="12" fill="#fff"/><rect x="13" y="5" width="4" height="6" fill="#fff"/></svg>DuriOn</div>
+          <span class="statuspill"><span class="d" style="background:#C73E1D;box-shadow:0 0 8px #C73E1D"></span>listening · 218ms</span>
+        </div>
+        <div class="listen-body">
+          <div class="glow"></div>
+          <div class="viz">
+            <i style="--h:60px;animation-delay:0s"></i><i style="--h:110px;animation-delay:.1s"></i>
+            <i style="--h:150px;animation-delay:.05s"></i><i style="--h:90px;animation-delay:.2s"></i>
+            <i style="--h:130px;animation-delay:.12s"></i><i style="--h:70px;animation-delay:.28s"></i>
+            <i style="--h:120px;animation-delay:.08s"></i><i style="--h:100px;animation-delay:.22s"></i>
+            <i style="--h:150px;animation-delay:.16s"></i><i style="--h:80px;animation-delay:.3s"></i>
+            <i style="--h:110px;animation-delay:.06s"></i>
+          </div>
+          <div class="listen-cap"> “Show me the way <br> to Gangnam Station” </div>
+          <div class="listen-tag mono"><span class="d" style="width:6px;height:6px;border-radius:50%;background:var(--accent)"></span>microphone active</div>
+        </div>
+        <div class="p-askbar"><div class="askbar live"><span style="color:var(--dim)">＋</span><span class="ph" style="color:var(--text)">listening│</span><span class="mic">◼</span></div></div>
+      </div></div>
+      <div class="cap"><b>02 · Listening</b> — Voice visualizer </div>
+    </div>
+
+    <!-- Phone 3: Overlay -->
+    <div class="phone-wrap">
+      <div class="phone"><div class="p-inner">
+        <div class="p-status"><span class="mono">9:32</span><span>▲ ▮ ▰</span></div>
+        <div class="host">
+          <div class="host-h"><div class="ico">T</div><span style="font-weight:600;font-size:14px"> TMap </span></div>
+          <div class="host-sub mono"> FRI · 09:31 · Navigation </div>
+          <div class="host-title"> Client headquarters </div>
+          <div class="host-list">
+            <div> · Route guidance started </div>
+            <div> · Arrival 09:58 (28 min) </div>
+            <div class="done"> · Enter Gangnam-daero </div>
+            <div class="done"> · Turn right in 300 m </div>
+            <div> · Next app: KakaoTalk </div>
+          </div>
+        </div>
+        <div class="overlay-bar"><div class="overlay-in">
+          <svg width="20" height="20" viewBox="0 0 22 22" style="flex-shrink:0"><rect width="22" height="22" rx="5" fill="#C73E1D"/><rect x="5" y="5" width="4" height="12" fill="#fff"/><rect x="13" y="5" width="4" height="6" fill="#fff"/></svg>
+          <div class="miniviz">
+            <i style="--h:20px;animation-delay:0s"></i><i style="--h:26px;animation-delay:.1s"></i><i style="--h:14px;animation-delay:.2s"></i>
+            <i style="--h:24px;animation-delay:.05s"></i><i style="--h:26px;animation-delay:.15s"></i><i style="--h:16px;animation-delay:.25s"></i>
+            <i style="--h:22px;animation-delay:.08s"></i><i style="--h:26px;animation-delay:.18s"></i><i style="--h:14px;animation-delay:.28s"></i>
+            <i style="--h:24px;animation-delay:.03s"></i><i style="--h:20px;animation-delay:.13s"></i><i style="--h:26px;animation-delay:.23s"></i>
+          </div>
+          <span class="mono" style="font-size:9.5px;color:var(--dim)">listening</span>
+          <span class="stop">◼</span>
+        </div></div>
+      </div></div>
+      <div class="cap"><b>03 · Overlay Bar</b> — System overlay above the app </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRENGTHS -->
+<section class="wrap">
+  <div class="sec-label">05 · Strengths</div>
+  <h2 class="sec-title"> Three strengths of DuriOn </h2>
+  <div class="moat">
+    <div class="moatcard">
+      <div class="num">01</div>
+      <h4> Ready for the next action </h4>
+      <p> Different apps expose different integration paths. A curated catalog of 30 leading apps prepares <b style="color:var(--text)"> the screen with the required inputs </b> for the user. </p>
+      <div class="have"> ✓ Curated app integration catalog </div>
+    </div>
+    <div class="moatcard">
+      <div class="num">02</div>
+      <h4> Personalized for your phone </h4>
+      <p> The same “open maps” request can select different apps based on <b style="color:var(--text)"> what is installed on your phone </b> and how often you use each app. </p>
+      <div class="have"> ✓ App inventory and usage-based routing </div>
+    </div>
+    <div class="moatcard">
+      <div class="num">03</div>
+      <h4> An integrated voice assistant </h4>
+      <p> App actions, meetings, translation, interpretation and daily planning come together in <b style="color:var(--text)"> one voice conversation </b> without switching between separate assistants. </p>
+      <div class="have"> ✓ Five agents · One voice experience </div>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap foot">
+  <div class="l"> DuriOn · App Concierge Voice AI · Built on Pipecat · Project introduction (1/2) </div>
+  <a class="nextbtn" href="https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/02-use-cases-en.html"> View use cases → </a>
+</div></footer>
+
+</body>
+</html>
+
