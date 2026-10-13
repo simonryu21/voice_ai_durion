@@ -6,10 +6,10 @@ DuriOn is an AI assistant that supports voice conversations, remembers user cont
 
 ## Introducing DuriOn
 
-- [Architecture and features](01-structure-features.html)
-- [Use cases](02-use-cases.html)
+- [Architecture and features](https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/01-structure-features.html)
+- [Use cases](https://htmlpreview.github.io/?https://github.com/simonryu21/voice_ai_durion/blob/main/02-use-cases.html)
 
-Download these HTML files and open them in a browser to view the introduction pages, which are written in Korean. GitHub's file viewer displays their source code. The two pages link to each other; the originals are also available in `mobile_pipecat/docs/durion-promo/`.
+These links open the rendered introduction pages through GitHub HTML Preview; no download is needed. The pages are written in Korean. To inspect or download the source, use [Architecture HTML source](01-structure-features.html) or [Use cases HTML source](02-use-cases.html). The originals are also available in `mobile_pipecat/docs/durion-promo/`.
 
 ## Projects
 
